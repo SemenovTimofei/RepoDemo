@@ -50,8 +50,72 @@ void bubbleSort(int array[], int size)
 	}
 }
 
+bool testBubbleCorrectCase()
+{
+	const int size = 100;
+	int* countingTestArray = (int*)malloc(size * 4);
+	memset(countingTestArray, 0, size * 4);
+
+	srand((unsigned int)time(NULL));
+
+	int* bubbleTestArray = (int*)malloc(size * 4);
+	memset(bubbleTestArray, 0, size * 4);
+
+	for (int i = 0; i < size; ++i)
+	{
+		bubbleTestArray[i] = rand();
+	}
+
+	bubbleSort(bubbleTestArray, size);
+
+	for (int i = 0; i < size - 1; ++i)
+	{
+		if (bubbleTestArray[i] > bubbleTestArray[i + 1])
+		{
+			return false;
+		}
+	}
+
+	free(bubbleTestArray);
+
+	return true;
+}
+
+bool testCountingCorrectCase()
+{
+	const int size = 100;
+	int* countingTestArray = (int*)malloc(size * 4);
+	memset(countingTestArray, 0, size * 4);
+
+	srand((unsigned int)time(NULL));
+
+	for (int i = 0; i < size; ++i)
+	{
+		countingTestArray[i] = rand() % 10;
+	}
+
+	countingSort(countingTestArray, size);
+
+	for (int i = 0; i < size - 1; ++i)
+	{
+		if (countingTestArray[i] > countingTestArray[i + 1])
+		{
+			return false;
+		}
+	}
+
+	free(countingTestArray);
+	return true;
+}
+
 void main()
 {
+	if (!testCountingCorrectCase() || !testBubbleCorrectCase())
+	{
+		printf("Test failed\n");
+		return;
+	}
+
 	int size = 100000;
 	int* array = (int*)malloc(size * 4);
 	memset(array, 0, size * 4);
@@ -73,7 +137,7 @@ void main()
 	
 	for (int i = 0; i < size; ++i)
 	{
-		array[i] = rand() % 10;
+		array[i] = rand();
 	}
 
 	bubbleSort(array, size);

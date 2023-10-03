@@ -52,7 +52,7 @@ int smallNumberPartition(int array[], int size)
 
         while (array[j] >= 10 && i < j)
         {
-            j--;
+            --j;
         }
 
         if (i < j)
@@ -106,13 +106,13 @@ int partition(int array[], int start, int end)
     return j;
 }
 
-void quickSort(int arr[], int low, int high)
+void quickSort(int array[], int start, int end)
 {
-    if (low < high)
+    if (start < end)
     {
-        int pivotIndex = partition(arr, low, high);
-        quickSort(arr, low, pivotIndex - 1);
-        quickSort(arr, pivotIndex + 1, high);
+        int pivotIndex = partition(array, start, end);
+        quickSort(array, start, pivotIndex - 1);
+        quickSort(array, pivotIndex + 1, end);
     }
 }
 
@@ -147,8 +147,8 @@ void main()
     }
 
 	printf("Input number of random elements\n");
-	int k = -1;
-	scanf_s("%d", &k);
+    int k = -1;
+    scanf_s("%d", &k);
 
     if (k < 1)
     {
@@ -156,7 +156,7 @@ void main()
         return;
     }
 
-	int* array = (int*)calloc(n, sizeof(int));
+    int* array = calloc(n, sizeof(int));
 	srand((unsigned int)time(NULL));
 
 	for (int i = 0; i < n; ++i)
@@ -164,7 +164,7 @@ void main()
 		array[i] = rand() % 100;
 	}
 
-	int* searchArray = (int*)calloc(k, sizeof(int));
+    int* searchArray = calloc(k, sizeof(int));
 
 	for (int i = 0; i < n; ++i)
 	{
@@ -194,6 +194,5 @@ void main()
         }
     }
 
-    free(array);
-    free(searchArray);
+    return;
 }

@@ -25,18 +25,13 @@ void comment(char string[], int size)
 	return;
 }
 
-bool testCorrectCase()
-{
-
-}
-
 int main()
 {
 	const char string[] = "a = 1 ; this doesn't work here";
 	const int size = strlen(string);
 
 	printf("The original string is:\n%s\n\n", string);
-	
+
 	printf("The comment is:\n");
 	comment(string, size);
 }

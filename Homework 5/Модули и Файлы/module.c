@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 
 void swap(int* firstValue, int* secondValue)
@@ -44,7 +45,7 @@ int smallNumberPartition(int array[], int size)
     int temporaryValue = 0;
     int j = size - 1;
 
-    // move all numbers less than 10 to the left
+    // передвинуть все элементы меньшие 10 влево
     while (i < j)
     {
         while (array[i] < 10 && i < j)
@@ -65,7 +66,7 @@ int smallNumberPartition(int array[], int size)
         }
     }
 
-    // return array position at which numbers greater than 9 start
+    // вернуть позицию, начина€ с которой все элементы больше 9
     for (int i = 0; i < size; ++i)
     {
         if (array[i] > 9)
@@ -118,20 +119,19 @@ void quickSort(int array[], int start, int end)
     }
 }
 
-int mostFrequentElement(int array[], int size)
+char mostFrequentElement(int array[], int size)
 {
     if (size < 1)
     {
-        printf("An array must have at least one element\n");
         return -1;
     }
 
-    // sorting the array
+    // сортировка списка
     int quickSortStart = smallNumberPartition(array, size);
     insertionSort(array, quickSortStart + 1);
     quickSort(array, quickSortStart, size - 1);
 
-    // finding the most frequent array element
+    // поиск самого частого элемента
     int maxCount = 1;
     int result = array[0];
     int currentCount = 1;
@@ -185,6 +185,134 @@ bool testCorrectCase()
     {
         return false;
     }
+
+    return true;
+}
+
+void fileToArray(char* fileName, char* readMode, int* array)
+{
+    FILE* file = fopen_s(&file, fileName, readMode);
+
+    if (fopen_s(&file, fileName, readMode) != 0)
+    {
+        printf("Error opening file\n");
+        return 1;
+    }
+
+    fseek(file, 0, SEEK_END);
+    int fileSize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char* fileContents = (char*)calloc(fileSize, fileSize * sizeof(char));
+
+    fread(fileContents, sizeof(char), fileSize, file);
+    fclose(file);
+
+    // подсчет количества элементов дл€ инициализации списка
+    int spaceCount = 1;
+
+    for (int i = 0; i < fileSize; ++i)
+    {
+        if (fileContents[i] == ' ')
+        {
+            ++spaceCount;
+        }
+    }
+
+    int elementCount = 0;
+    char* context;
+
+    char* token = strtok_s(fileContents, " ", &context);
+
+    while (token != NULL && elementCount < fileSize)
+    {
+        array[elementCount] = atoi(token);
+        elementCount++;
+        token = strtok_s(NULL, " ", &context);
+    }
+
+    free(fileContents);
+
+    return;
+}
+
+int countElementsInFile(char* fileName, char* readMode)
+{
+    FILE* file = fopen_s(&file, fileName, readMode);
+
+    if (fopen_s(&file, fileName, readMode) != 0)
+    {
+        return -1;
+    }
+
+    fseek(file, 0, SEEK_END);
+    int fileSize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    if (fileSize == 0)
+    {
+        return -2;
+    }
+
+    char* fileContents = (char*)calloc(fileSize, fileSize * sizeof(char));
+
+    fread(fileContents, sizeof(char), fileSize, file);
+
+    fclose(file);
+
+    // подсчет количества элементов дл€ инициализации списка
+    int elementCount = 1;
+
+    for (int i = 0; i < fileSize; ++i)
+    {
+        if (fileContents[i] == ' ')
+        {
+            ++elementCount;
+        }
+    }
+
+    return elementCount;
+}
+
+bool fileTesting()
+{
+    // тест пустого файла
+    const int elementCount1 = countElementsInFile("test1.txt", "r");
+
+    if (elementCount1 == -1)
+    {
+        return false;
+    }
+
+    int* array1 = calloc(elementCount1, elementCount1 * sizeof(int));
+
+    fileToArray("test1.txt", "r", array1);
+
+    if (!(mostFrequentElement(array1, elementCount1) == -1))
+    {
+        return false;
+    }
+
+    free(array1);
+
+    // проверка самого частого элемента
+    const int elementCount2 = countElementsInFile("test2.txt", "r");
+
+    if (elementCount2 == -1)
+    {
+        return false;
+    }
+
+    int* array2 = calloc(elementCount2, elementCount2 * sizeof(int));
+
+    fileToArray("test2.txt", "r", array2);
+
+    if (!(mostFrequentElement(array2, elementCount2) == 5))
+    {
+        return false;
+    }
+
+    free(array2);
 
     return true;
 }

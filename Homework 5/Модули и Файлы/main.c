@@ -1,54 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 int main()
 {
+    setlocale(LC_ALL, "Rus");
+
+    if (!fileTesting())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
+
     char* fileName = "sample.txt";
     char* readMode = "r";
-    FILE* file = fopen_s(&file, fileName, readMode);
+    const int elementCount = countElementsInFile(fileName, readMode);
 
-    if (fopen_s(&file, fileName, readMode) != 0)
+    if (elementCount == -1)
     {
         printf("Error opening file\n");
         return 1;
     }
 
-    fseek(file, 0, SEEK_END);
-    int fileSize = ftell(file);
-    fseek(file, 0, SEEK_SET);
-
-    char* fileContents = (char*)calloc(fileSize, fileSize * sizeof(char));
-
-    fread(fileContents, sizeof(char), fileSize, file);
-    fclose(file);
-
-    // подсчет количества элементов для создания списка
-    int spaceCount = 1;
-
-    for (int i = 0; i < fileSize; ++i)
+    if (elementCount == -2)
     {
-        if (fileContents[i] == ' ')
-        {
-            ++spaceCount;
-        }
+        printf("File is empty\n");
+        return 1;
     }
 
-    int* array = calloc(spaceCount, spaceCount * sizeof(int));
-    int elementCount = 0;
-    char* context;
+    int* array = calloc(elementCount, elementCount * sizeof(int));
 
-    char* token = strtok_s(fileContents, " ", &context);
+    fileToArray(fileName, readMode, array);
 
-    while (token != NULL && elementCount < fileSize)
-    {
-        array[elementCount] = atoi(token);
-        elementCount++;
-        token = strtok_s(NULL, " ", &context);
-    }
+    printf("Самый частый элемент в файле %s это %d", fileName, mostFrequentElement(array, elementCount));
 
-    printArray(array, elementCount);
-
-    free(fileContents);
     return 0;
 }

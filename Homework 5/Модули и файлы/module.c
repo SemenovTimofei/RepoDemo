@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -185,4 +187,9 @@ bool testCorrectCase()
     }
 
     return true;
+}
+
+int readFile(char fileName, char readMode)
+{
+
 }

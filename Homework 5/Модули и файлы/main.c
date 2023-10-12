@@ -1,12 +1,14 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main()
+{
     FILE* file;
     char* filename = "sample.txt";
     char* mode = "r";
 
-    if (fopen_s(&file, filename, mode) != 0) {
+    if (fopen_s(&file, filename, mode) != 0)
+    {
         printf("Error opening file.\n");
         return 1;
     }
@@ -20,19 +22,15 @@ int main() {
     fread(fileContents, sizeof(char), fileSize, file);
 
     fclose(file);
-
-    // Use the fileContents array as needed
     
-    int array[11];
+    int* array = calloc(fileSize, fileSize * sizeof(int));
 
     for (int i = 0; fileContents[i] != '\0'; i++)
     {
         array[i] = (fileContents[i] - '0');
     }
-
-    printArray(array, fileSize);
-
-    //mostFrequentElement(fileContents, fileSize);
+    
+    printf("%d\n", mostFrequentElement(array, fileSize));
 
     free(fileContents);
 

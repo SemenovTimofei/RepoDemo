@@ -313,6 +313,5 @@ bool fileTesting()
     }
 
     free(array2);
-
     return true;
 }

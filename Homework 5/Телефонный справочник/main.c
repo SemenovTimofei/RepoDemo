@@ -3,71 +3,143 @@
 #include <string.h>
 #include "module.h"
 
-
 int main()
 {
     setlocale(LC_ALL, "Rus");
 
-    PhoneBookEntry entries[100];
-    int entryCount = 0;
-
-    FILE* file = fopen_s(&file, "phonebook.txt", "r");
-
-    if (file != NULL)
+    FILE* file = fopen_s(&file, "database.txt", "r+");
+    if (file == NULL)
     {
-        while (fscanf_s(file, "%s %s", entries[entryCount].name, entries[entryCount].phone) == 2)
-        {
-            ++entryCount;
-            if (entryCount >= 100)
-            {
-                break;
-            }
-        }
-
-        fclose(file);
+        file = fopen_s(&file, "database.txt", "a+");
     }
 
-    int option = 0;
-    do 
-    {
-        printOptions();
-        printf("Введите номер операции: ");
+    int entryCount = 0;
+    Phonebook entries[MAX_ENTRY_COUNT] = { 0 };
 
-        char characterCheck = '\0';
+    read(file, entries, &entryCount);
+
+    int newEntries = 0;
+
+    if (!testAddEntry() || !testCapacity())
+    {
+        printf("Тесты не пройдены\n");
+        return 1;
+    }
+
+    printOptions();
+    int option = -1;
+    while (option != 0)
+    {
+        printf("\nВыберите опцию: ");
+        
+        char characterCheck = "";
         scanf_s("%d%c", &option, &characterCheck);
 
         if (characterCheck != '\n')
         {
-            printf("Программа принимает только числа\n");
-            continue;
+            printf("Программа принимает только цифры\n");
+            return 1;
         }
 
         switch (option)
         {
         case 0:
-            printf("Программа завершена\n");
-            break;
-        case 1:
-            addEntry(entries, &entryCount);
-            break;
-        case 2:
-            printEntries(entries, entryCount);
-            break;
-        case 3:
-            findPhoneByName(entries, entryCount);
-            break;
-        case 4:
-            findNameByPhone(entries, entryCount);
-            break;
-        case 5:
-            saveToFile(entries, entryCount);
-            break;
-        default:
-            printf("Неверный номер операции.\n");
+        {
             break;
         }
-    } while (option != 0);
+        case 1:
+        {
+            printf("\nВведите имя: ");
+
+            Phonebook newEntry;
+            char name[MAX_NAME_SIZE] = { 0 };
+
+            if (fgets(name, MAX_NAME_SIZE, stdin) == NULL)
+            {
+                return -1;
+            }
+
+            name[strcspn(name, "\n")] = '\0';
 
 
+            strcpy_s(newEntry.name, sizeof(newEntry.name), name);
+            printf("\nВведите номер телефона: ");
+            if (scanf_s("%s", newEntry.phone, 12) == NULL)
+            {
+                return -1;
+            }
+            if (addEntry(entries, newEntry, &entryCount) == -1)
+            {
+                printf("\nКоличество записей превышено\n");
+                break;
+            }
+            ++newEntries;
+            break;
+        }
+        case 2:
+        {
+            printEntries(entries, entryCount);
+            break;
+        }
+        case 3:
+        {
+            if (entryCount == 0)
+            {
+                printf("\nТелефонная книга пуста\n");
+                break;
+            }
+
+            printf("\nВведите имя: ");
+            char name[MAX_NAME_SIZE] = { 0 };
+            if (scanf_s("%s", name, MAX_NAME_SIZE) == NULL)
+            {
+                break;
+            }
+            char phone[MAX_PHONE_SIZE] = { 0 };
+            if (findPhoneByName(entries, entryCount, name, phone) == 0)
+            {
+                printf("\nНомер телефона: %s", phone);
+                break;
+            }
+            printf("\nДанные не найдены\n");
+            break;
+        }
+        case 4:
+        {
+            if (entryCount == 0)
+            {
+                printf("\nТелефонная книга пуста\n");
+                break;
+            }
+
+            printf("\nВведите номер телефона: ");
+            char phone[MAX_PHONE_SIZE] = { 0 };
+            if (scanf_s("%s", phone, MAX_PHONE_SIZE) == NULL)
+            {
+                break;
+            }
+            char name[MAX_NAME_SIZE] = { 0 };
+            if (findPhoneByName(entries, entryCount, name, phone) == 0)
+            {
+                printf("\nИмя: %s", name);
+                break;
+            }
+            printf("\nДанные не найдены\n");
+            break;
+        }
+        case 5:
+        {
+            saveToFile(file, entries, entryCount, newEntries);
+            break;
+        }
+        default:
+        {
+            printf("Неправильная опция\n");
+            break;
+        }
+        }
+    }
+
+    fclose(file);
     return 0;
 }

@@ -1,120 +1,104 @@
+#pragma once
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+#include <stdbool.h>
 
-#pragma once
-
+#define MAX_ENTRY_COUNT 100
+#define MAX_NAME_SIZE 50
+#define MAX_PHONE_SIZE 20
 
 typedef struct {
-    char name[50];
-    char phone[20];
-} PhoneBookEntry;
+    char name[MAX_NAME_SIZE];
+    char phone[MAX_PHONE_SIZE];
+} Phonebook;
 
 void printOptions()
 {
     printf("0 - выйти\n");
-    printf("1 - добавить запись (имя и телефон)\n");
-    printf("2 - распечатать все имеющиеся записи\n");
+    printf("1 - записать имя и телефон\n");
+    printf("2 - вывести все записи\n");
     printf("3 - найти телефон по имени\n");
     printf("4 - найти имя по телефону\n");
-    printf("5 - сохранить текущие данные в файл\n");
+    printf("5 - сохранить все записи в файл\n");
 }
 
-void addEntry(PhoneBookEntry* entries, int* entryCount)
+int addEntry(Phonebook* entries, Phonebook newEntry, int* entryCount)
 {
-    if (*entryCount >= 100)
+    if (*entryCount >= MAX_ENTRY_COUNT)
     {
-        printf("База номеров полна\n");
-        return;
+        return -1;
     }
-
-    PhoneBookEntry newEntry;
-    
-    printf("Введите имя: ");
-    scanf_s("%s", newEntry.name, sizeof(newEntry.name));
-
-    printf("Введите телефон: ");
-    scanf_s("%s", newEntry.phone, sizeof(newEntry.phone));
-    
     entries[*entryCount] = newEntry;
     (*entryCount)++;
-
-    printf("Запись успешно добавлена.\n");
+    return 0;
 }
 
-void printEntries(PhoneBookEntry* entries, int entryCount)
+void printEntries(Phonebook* entries, int entryCount)
 {
     if (entryCount == 0)
     {
-        printf("База номеров пуста.\n");
+        printf("\nТелефонная книга пуста\n");
         return;
     }
     
-    printf("Список записей:\n");
+    printf("\nСписок записей:\n\n");
     for (int i = 0; i < entryCount; i++)
     {
         printf("Имя: %s, Телефон: %s\n", entries[i].name, entries[i].phone);
     }
 }
-
-void findPhoneByName(PhoneBookEntry* entries, int entryCount)
+int findPhoneByName(Phonebook* entries, int entryCount, char* name, char* phone)
 {
     if (entryCount == 0)
     {
-        printf("Телефонная книга\n");
-        return;
+        return 1;
     }
-
-    char name[50];
-    printf("Введите имя: ");
-    scanf_s("%s", name);
 
     for (int i = 0; i < entryCount; ++i)
     {
         if (strcmp(entries[i].name, name) == 0)
         {
-            printf("Телефон: %s\n", entries[i].phone);
-            return;
+            memcpy(phone, entries[i].phone, MAX_PHONE_SIZE);
+            return 0;
         }
     }
-
-    printf("Запись с указанным именем не найдена\n");
+    phone = NULL;
+    return 1;
 }
 
-void findNameByPhone(PhoneBookEntry* entries, int entryCount) {
-    if (entryCount == 0) {
-        printf("База номеров пуста\n");
-        return;
-    }
-
-    char phone[20];
-    printf("Введите телефон: ");
-    scanf_s("%s", phone);
-
-    for (int i = 0; i < entryCount; i++) {
-        if (strcmp(entries[i].phone, phone) == 0) {
-            printf("Имя: %s\n", entries[i].name);
-            return;
-        }
-    }
-
-    printf("Запись с указанным телефоном не найдена.\n");
-}
-
-void saveToFile(PhoneBookEntry* entries, int entryCount)
+int findNameByPhone(Phonebook* entries, int entryCount, char* name, char* phone)
 {
-    FILE* file = fopen_s(&file, "phonebook.txt", "w");
-    
+    if (entryCount == 0)
+    {
+        return 1;
+    }
+
+    for (int i = 0; i < entryCount; i++)
+    {
+        if (strcmp(entries[i].phone, phone) == 0)
+        {
+            memcpy(name, entries[i].name, MAX_NAME_SIZE);
+            return 0;
+        }
+    }
+    name = NULL;
+    return 1;
+}
+
+int saveToFile(FILE* file, Phonebook* entries, int entryCount, int newEntries)
+{
     if (file == NULL)
     {
-        printf("Ошибка чтения файла\n");
-        return;
+        file = fopen_s(&file, "phonebook.txt", "a");
+        return 1;
     }
 
     if (entryCount == 0)
     {
-        printf("Файл пустой\n");
+        return 1;
     }
 
     for (int i = 0; i < entryCount; ++i)
@@ -125,4 +109,32 @@ void saveToFile(PhoneBookEntry* entries, int entryCount)
     fclose(file);
 
     printf("Имя и номер сохранены\n");
+}
+
+bool testCapacity()
+{
+    int entryCount = 100;
+
+    Phonebook testCapacity[MAX_ENTRY_COUNT] = { 0 };
+    Phonebook newEntry;
+    char name[] = "egor";
+    char phone[] = "33";
+    strcpy_s(newEntry.name, sizeof(newEntry.name), name);
+    strcpy_s(newEntry.phone, sizeof(newEntry.phone), phone);
+
+    if (addEntry(testCapacity, newEntry, &entryCount) != -1)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool testAddEntry()
+{
+    int entryCount = 0;
+    Phonebook testAddEntry[MAX_ENTRY_COUNT] = { 0 };
+    Phonebook newEntry = { "asd", "123" };
+
+    return addEntry(testAddEntry, newEntry, &entryCount) == 0;
 }

@@ -6,7 +6,6 @@
 struct Stack
 {
     int value;
-    int size;
     struct Stack* next;
 };
 
@@ -19,14 +18,9 @@ int push(struct Stack** head, const int value)
     }
     next->value = value;
     next->next = *head;
-    next->size = (*head == NULL) ? 1 : (*head)->size + 1;
     *head = next;
-    return 0;
-}
 
-int stackSize(Stack* head)
-{
-    return head->size;
+    return 0;
 }
 
 int pop(struct Stack** head)
@@ -39,6 +33,7 @@ int pop(struct Stack** head)
     struct Stack* trash = *head;
     *head = (*head)->next;
     int value = trash->value;
+
     free(trash);
     return value;
 }
@@ -56,6 +51,7 @@ void freeStack(Stack** head)
     {
         Stack* temp = next;
         next = next->next;
+
         free(temp);
     }
 }
@@ -128,7 +124,7 @@ int calculatePostfix(char* text)
         }
     }
 
-    while (stackSize(head) > 1)
+    while (head->next != NULL)
     {
         secondValue = pop(&head);
         firstValue = pop(&head);
@@ -137,8 +133,8 @@ int calculatePostfix(char* text)
     }
 
     result = top(head);
-    freeStack(&head);
 
+    freeStack(&head);
     return result;
 }
 

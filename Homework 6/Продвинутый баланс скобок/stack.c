@@ -22,6 +22,7 @@ int push(struct Stack** head, const char value)
     next->next = *head;
     next->size = (*head == NULL) ? 1 : (*head)->size + 1;
     *head = next;
+
     return 0;
 }
 
@@ -34,7 +35,7 @@ int stackSize(Stack* head)
     return head->size;
 }
 
-char pop(struct Stack** head)
+int pop(struct Stack** head)
 {
     if (*head == NULL)
     {
@@ -43,10 +44,9 @@ char pop(struct Stack** head)
 
     struct Stack* trash = *head;
     *head = (*head)->next;
-    char value = trash->value;
 
     free(trash);
-    return value;
+    return 0;
 }
 
 void freeStack(Stack** head)
@@ -90,21 +90,9 @@ char findPair(char bracket)
     {
         return '[';
     }
-    if (bracket == '(')
-    {
-        return ')';
-    }
-    if (bracket == '{')
-    {
-        return '}';
-    }
-    if (bracket == '[')
-    {
-        return ']';
-    }
 }
 
-bool bracketCheck(char* text) //)(
+bool bracketCheck(char* text)
 {
     Stack* head = NULL;
 
@@ -138,5 +126,22 @@ bool bracketCheck(char* text) //)(
     }
 
     freeStack(&head);
+    return true;
+}
+
+bool testing()
+{
+    char testCases[8][20] = { "(()", "())(", ")", "(", "(){{[][]}}", "(]", "({[]})", "({[()]{}}())" };
+
+    bool testDemands[8] = { false, false, false, false, true, false, true, true };
+
+    for (int i = 0; i < 8; ++i)
+    {
+        if (bracketCheck(testCases[i]) != testDemands[i])
+        {
+            return false;
+        }
+    }
+
     return true;
 }

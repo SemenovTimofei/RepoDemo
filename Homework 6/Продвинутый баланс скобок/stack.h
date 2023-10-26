@@ -2,23 +2,26 @@
 
 #include <stdbool.h>
 
-// структура стека
+// stack structure
 typedef struct Stack Stack;
 
-// добавл€ет значение в стек
+// adds value to a stack
 int push(Stack** head, const char value);
 
-// удал€ет элемент стека
-char pop(Stack** head);
+// deletes last stack element
+int pop(Stack** head);
 
-// удал€ет весь стек
+// frees the stack
 void freeStack(Stack** head);
 
-// возвращает последнее значение стека
+// returns the last stack value
 char top(Stack* head);
 
-// возвращает закрывающуюс€ скобку того же вида, что и полученна€ открывающа€с€ скобка
+// returns open bracket of the same type
 char findPair(char bracket);
 
-// возвращает истину или ложь в зависимости от корректности написани€ скобок
+// returns true or false value depeding on bracket placement correctness
 bool bracketCheck(char* text);
+
+// testing bracket balance algorithm
+bool testing();

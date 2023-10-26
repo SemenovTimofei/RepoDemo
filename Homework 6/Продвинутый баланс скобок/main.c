@@ -4,11 +4,11 @@
 
 int main()
 {
-    //char text[MAX_LENGTH] = { 0 };
+    char text[MAX_LENGTH] = { 0 };
     
-    //printf("Enter\n");
-    //scanf_s("%s", &text, MAX_LENGTH);
-    char text[] = "(())(([{][}]))";
+    printf("Enter\n");
+    scanf_s("%s", &text, MAX_LENGTH);
+    //char text[] = "()(([]))";
     if (bracketCheck(text))
     {
         printf("%s has correct bracket placement\n", text);

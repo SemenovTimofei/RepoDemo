@@ -104,7 +104,7 @@ char findPair(char bracket)
     }
 }
 
-bool bracketCheck(char* text) // ()(([]))
+bool bracketCheck(char* text) //)(
 {
     Stack* head = NULL;
 
@@ -116,9 +116,14 @@ bool bracketCheck(char* text) // ()(([]))
         }
         else if (strchr(")}]", text[i]))
         {
-            if (!(stackSize(head) > 0 && top(head) == findPair(text[i])))
+            if (stackSize(head) == 0)
             {
-                printf("check1\n");
+                return false;
+            }
+
+            if (!(top(head) == findPair(text[i])))
+            {
+                freeStack(&head);
                 return false;
             }
 
@@ -128,10 +133,10 @@ bool bracketCheck(char* text) // ()(([]))
 
     if (stackSize(head) > 0)
     {
-        printf("check2\n");
+        freeStack(&head);
         return false;
     }
 
-    printf("check3\n");
+    freeStack(&head);
     return true;
 }

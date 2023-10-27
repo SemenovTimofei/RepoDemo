@@ -57,14 +57,31 @@ int findMaxSum(int array[], int size, int* result)
 
 bool testing()
 {
-    int testArrays[2][5] = { { -4, -3, -2, -1, 0 }, { 5, 4, 3, 2, 1 } };
+    int testArray1[3][5] = {{-4, -3, -2, -1, 0}, {5, 4, 3, 2, 1}, {10, 50, 44, 55, 123}};
+    int answers[3] = { -4, 5, 55 };
+    for (int i = 0; i < 3; ++i)
+    {
+        int size = sizeof(testArray1[i]) / sizeof(int);
+        int result = 0;
+        int count = findMaxSum(testArray1[i], size, &result);
 
-    
+
+        if (result != answers[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 int main()
 {
-    testing();
+    if (!testing())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
 
 	int array[] = { 1, 2, 5, 10, 15, 55 , 46, 56 , 0, -57 };
     int size = sizeof(array) / sizeof(int);
@@ -74,4 +91,6 @@ int main()
 
     printf("The elements with the largest digit sum: ");
     printArray(&result, count);
+
+    return 0;
 }

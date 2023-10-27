@@ -1,10 +1,21 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 void swap(int* firstValue, int* secondValue)
 {
 	int temporaryValue = *firstValue;
 	*firstValue = *secondValue;
 	*secondValue = temporaryValue;
+}
+
+void printArray(int array[], int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		printf("%d ", array[i]);
+	}
+
+	printf("\n");
 }
 
 void shellSort(int* array, int size)
@@ -28,18 +39,45 @@ void shellSort(int* array, int size)
 	}
 }
 
-void printArray(int array[], int size)
+bool testing()
 {
-	for (int i = 0; i < size; i++)
+	int array1[] = { 132, 65, 6712, -4127, -312, 36 };
+	int size1 = sizeof(array1) / sizeof(int);
+
+	shellSort(&array1, size1);
+
+	for (int i = 0; i < size1 - 1; ++i)
 	{
-		printf("%d ", array[i]);
+		if (array1[i] > array1[i + 1])
+		{
+			return false;
+		}
 	}
 
-	printf("\n");
+	int array2[] = { -5, 321, 36, 33, 48, -532, -321, -321, 36, 33 };
+	int size2 = sizeof(array2) / sizeof(int);
+
+	shellSort(&array2, size2);
+
+	for (int i = 0; i < size2 - 1; ++i)
+	{
+		if (array2[i] > array2[i + 1])
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 int main()
 {
+	if (!testing())
+	{
+		printf("Testing failed\n");
+		return 1;
+	}
+
 	int array[] = { 10, -5, 8, 6, 4, 7, 1, 2, 5, 9 };
 	int size = sizeof(array) / sizeof(int);
 

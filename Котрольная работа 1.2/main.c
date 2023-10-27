@@ -88,4 +88,6 @@ int main()
 
 	printf("The sorted array is: ");
 	printArray(array, size);
+
+	return 0;
 }

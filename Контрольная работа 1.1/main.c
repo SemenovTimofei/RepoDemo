@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 void printArray(int array[], int size)
 {
@@ -28,11 +29,8 @@ int numberSum(int number)
     return sum;
 }
 
-int main()
+int findMaxSum(int array[], int size, int* result)
 {
-	int array[] = { 1, 2, 5, 10, 15, 55 , 46, 56 , 0, -57 };
-    int size = sizeof(array) / sizeof(int);
-    
     int maxSum = 0;
     int maxNumber = calloc(size, sizeof(array));
 
@@ -44,12 +42,36 @@ int main()
         }
     }
 
-    printf("The elements with the largest digit sum: ");
+    int count = 0;
     for (int i = 0; i < size; ++i)
     {
         if (numberSum(array[i]) == maxSum)
         {
-            printf("%d ", array[i]);
+            result[count] = array[i];
+            ++count;
         }
     }
+
+    return count;
+}
+
+bool testing()
+{
+    int testArrays[2][5] = { { -4, -3, -2, -1, 0 }, { 5, 4, 3, 2, 1 } };
+
+    
+}
+
+int main()
+{
+    testing();
+
+	int array[] = { 1, 2, 5, 10, 15, 55 , 46, 56 , 0, -57 };
+    int size = sizeof(array) / sizeof(int);
+    int* result = calloc(size, sizeof(array));
+
+    int count = findMaxSum(array, size, &result);
+
+    printf("The elements with the largest digit sum: ");
+    printArray(&result, count);
 }

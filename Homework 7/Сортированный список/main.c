@@ -4,6 +4,12 @@
 
 int main()
 {
+	if (!testing())
+	{
+		printf("Testing failed\n");
+		return 1;
+	}
+
 	List* list = NULL;
 
 	int command = -1;

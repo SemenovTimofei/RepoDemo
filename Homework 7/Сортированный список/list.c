@@ -93,11 +93,11 @@ int deleteElement(List** head, size_t index)
         return NULL;
     }
 
-    int temporaryorary = element->value;
+    int temporary = element->value;
     previous->next = element->next;
 
     free(element);
-    return temporaryorary;
+    return temporary;
 }
 
 void deleteList(List** head)
@@ -127,5 +127,33 @@ bool testing()
 {
     List* list = NULL;
 
+    push(&list, 5);
+    push(&list, 1);
+    push(&list, 100);
+    push(&list, -100);
 
+    int check1[] = { -100, 1, 5, 100 };
+    for (int i = 0; i < 4; ++i)
+    {
+        if ((getElement(list, i))->value != check1[i])
+        {
+            return false;
+        }
+    }
+
+    deleteElement(&list, 1);
+    deleteElement(&list, 1);
+
+    int check2[] = { -100, 100 };
+
+    for (int i = 0; i < 2; ++i)
+    {
+        if ((getElement(list, i))->value != check2[i])
+        {
+            return false;
+        }
+    }
+
+    deleteList(&list);
+    return true;
 }

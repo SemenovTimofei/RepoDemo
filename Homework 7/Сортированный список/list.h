@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 // list structure
 typedef struct List List;
 
@@ -20,3 +22,6 @@ void deleteList(List** head);
 
 // prints out all list values
 void printList(const List* head);
+
+// testing list operations
+bool testing();

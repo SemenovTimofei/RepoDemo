@@ -38,9 +38,22 @@ char* const compress(const char* const string, size_t* const resultSize)
 
     for (size_t i = 0; i < ALPHABET_SIZE; ++i)
     {
-        treeArray[i] = makeLeaf((char)i, charCount[i]);
+        treeArray[i] = charCount[i] != 0 ? makeLeaf((char)i, charCount[i]) : NULL;
     }
 
     insertionSort(treeArray, ALPHABET_SIZE);
+
+    for (size_t i = ALPHABET_SIZE - 1; i != 0; --i)
+    {
+        if (treeArray[i] == NULL)
+        {
+            continue;
+        }
+
+        treeArray[i] = makeTree(&treeArray[i], &treeArray[i - 1]);
+        insertionSortStep(treeArray, i);
+    }
+
+    Code* table = createCodeTable(treeArray[0]);
 }
 

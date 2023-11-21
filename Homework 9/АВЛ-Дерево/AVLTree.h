@@ -1,19 +1,26 @@
 #pragma once
 
+#include <stdio.h>
+
 #define EXPRESSION_SIZE 100
 
 typedef struct Node Node;
 
 typedef struct AVLTree AVLTree;
 
-size_t getHeight(Node* const node);
-
-int getHeightDifference(Node* node);
-
-void updateHeight(Node* node);
-
+// returns an initialized AVL-Tree
 AVLTree* createAVLTree();
 
+// returns node height
+size_t getHeight(Node* const node);
+
+// returns height difference between two siblings
+int getHeightDifference(Node* node);
+
+// updates height values
+void updateHeight(Node* node);
+
+// returns true or false whether the tree root is empty
 bool isEmpty(AVLTree* const tree);
 
 Node* rotateRight(Node* const root);

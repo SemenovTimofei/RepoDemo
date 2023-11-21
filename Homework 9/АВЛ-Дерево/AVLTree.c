@@ -20,7 +20,12 @@ typedef struct AVLTree
     Node* root;
 } AVLTree;
 
-size_t getHeight(Node* const node) // const Node* const node
+AVLTree* createAVLTree()
+{
+    return calloc(1, sizeof(AVLTree));
+}
+
+size_t getHeight(Node* const node)
 {
     return (node == NULL) ? -1 : node->height;
 }
@@ -37,12 +42,7 @@ void updateHeight(Node* node)
     node->height = ((heightLeft > heightRight) ? heightLeft : heightRight) + 1;
 }
 
-AVLTree* createAVLTree()
-{
-    return calloc(1, sizeof(AVLTree));
-}
-
-bool isEmpty(AVLTree* const tree) // const AVLTree* const tree
+bool isEmpty(AVLTree* const tree) 
 {    
     return tree->root == NULL;
 }
@@ -106,7 +106,7 @@ Node* balance(Node* const node)
     return node;
 }
 
-void insert(Node* const node, char* const key, char* const value) // Node* const node, const char* const key, const char* const value
+void insert(Node* const node, char* const key, char* const value)
 {
     if (strcmp(key, node->key) == 0)
     {
@@ -143,7 +143,7 @@ void insert(Node* const node, char* const key, char* const value) // Node* const
     }
 }
 
-void addValue(AVLTree* const tree, char* const key, char* const value) // AVLTree* const tree, const char* const key, const char* const value
+void addValue(AVLTree* const tree, char* const key, char* const value)
 {
     if (tree == NULL)
     {
@@ -159,9 +159,9 @@ void addValue(AVLTree* const tree, char* const key, char* const value) // AVLTre
     }
     insert(tree->root, key, value);
     tree->root = balance(tree->root);
-} // useless ???
+}
 
-char* get(Node* const node, char* const key) // const Node* const node, const char* const key
+char* get(Node* const node, char* const key)
 {
     if (node == NULL)
     {
@@ -174,12 +174,12 @@ char* get(Node* const node, char* const key) // const Node* const node, const ch
     (strcmp(key, node->key) < 0) ? get(node->left, key) : get(node->right, key);
 }
 
-char* getValue(AVLTree* const tree, char* const key) // const AVLTree* const tree, const char* const key
+char* getValue(AVLTree* const tree, char* const key)
 {
     return get(tree->root, key);
 }
 
-bool find(Node* const node, char* const key) // const Node* const node, const char* const key
+bool find(Node* const node, char* const key)
 {
     if (node == NULL)
     {
@@ -192,12 +192,12 @@ bool find(Node* const node, char* const key) // const Node* const node, const ch
     (strcmp(key, node->key) < 0) ? find(node->left, key) : find(node->right, key);
 }
 
-bool isPresent(AVLTree* const tree, char* const key) // const AVLTree* const tree, const char* const key
+bool isPresent(AVLTree* const tree, char* const key)
 {
     return find(tree->root, key);
 }
 
-Node* findNodeClosestToNode(Node* const node) // const Node* const node
+Node* findNodeClosestToNode(Node* const node)
 {
     Node* rightmostNodeOnTheLeft = node->left;
     int leftPathLength = 1;
@@ -216,13 +216,13 @@ Node* findNodeClosestToNode(Node* const node) // const Node* const node
     return (leftPathLength > rightPathLength) ? rightmostNodeOnTheLeft : leftmostNodeOnTheLeft;
 }
 
-void copyData(Node* const destination, Node* const source) // Node* const destination, const Node* const source
+void copyData(Node* const destination, Node* const source)
 {
     strcpy_s(destination->value, EXPRESSION_SIZE, source->value);
     strcpy_s(destination->key, EXPRESSION_SIZE, source->key);
 }
 
-void deleteNode(Node* node, char* const key) // Node* node, const char* const key
+void deleteNode(Node* node, char* const key)
 {
     if (node == NULL)
     {
@@ -310,7 +310,7 @@ void deleteRoot(AVLTree* const tree)
     tree->root = balance(newRoot);
 }
 
-void deleteValue(AVLTree* const tree, char* const key) // AVLTree* const tree, const char* const key
+void deleteValue(AVLTree* const tree, char* const key)
 {
     if (tree == NULL)
     {
@@ -325,11 +325,11 @@ void deleteValue(AVLTree* const tree, char* const key) // AVLTree* const tree, c
         deleteRoot(tree);
         return;
     }
-    deleteNode(tree->root, key); // necessary ???
+    deleteNode(tree->root, key);
     tree->root = balance(tree->root);
 }
 
-void deleteChildren(Node* const node) // const Node* const node
+void deleteChildren(Node* const node)
 {
     if (node == NULL)
     {

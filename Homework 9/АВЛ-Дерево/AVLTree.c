@@ -233,9 +233,9 @@ void deleteNode(Node* node, char* const key)
     {
         if (node->right != NULL && node->left != NULL)
         {
-            Node* helpNode = findNodeClosestToNode(node);
-            copyData(node, helpNode);
-            deleteNode(helpNode, helpNode->key);
+            Node* temporary = findNodeClosestToNode(node);
+            copyData(node, temporary);
+            deleteNode(temporary, temporary->key);
             return;
         }
         if (node->right == NULL)
@@ -287,9 +287,9 @@ void deleteRoot(AVLTree* const tree)
 {
     if (tree->root->right != NULL && tree->root->left != NULL)
     {
-        Node* helpNode = findNodeClosestToNode(tree->root);
-        copyData(tree->root, helpNode);
-        deleteNode(helpNode, helpNode->key);
+        Node* temporary = findNodeClosestToNode(tree->root);
+        copyData(tree->root, temporary);
+        deleteNode(temporary, temporary->key);
         tree->root = balance(tree->root);
         return;
     }
@@ -350,7 +350,7 @@ void deleteAVLTree(const AVLTree** const tree)
     *tree = NULL;
 }
 
-void printOptions()
+void printMenu()
 {
     printf("0 - Exit\n");
     printf("1 - Add value by key\n");

@@ -19,7 +19,7 @@ int main()
 
     while (!finish)
     {
-        printOptions();
+        printMenu();
         char key[EXPRESSION_SIZE] = "";
         if (scanf_s("%d", &command) != 1)
         {

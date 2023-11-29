@@ -17,11 +17,13 @@ typedef struct HuffmanTree
     Node* root;
 } HuffmanTree;
 
+/*
 typedef struct Code
 {
     size_t size;
     bool code[256];
 } Code;
+*/
 
 const HuffmanTree* makeLeaf(const char value, const size_t count)
 {
@@ -74,6 +76,5 @@ Code* createCodeTable(const HuffmanTree* const tree)
     Code* table = (Code*)calloc(256, sizeof(Code));
     bool code[256] = { false };
     makeCode(0, code, tree->root, table);
-    
     return table;
 }

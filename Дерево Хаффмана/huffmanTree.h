@@ -6,7 +6,11 @@ typedef struct Node Node;
 
 typedef struct HuffmanTree HuffmanTree;
 
-typedef struct Code Code;
+typedef struct Code
+{
+    size_t size;
+    bool code[256];
+} Code;
 
 const HuffmanTree* makeLeaf(const char value, const size_t count);
 

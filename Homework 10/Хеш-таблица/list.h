@@ -14,14 +14,18 @@ typedef struct List List;
 
 List* createList();
 
-ErrorCode push(List* list, char* charValue, int intValue);
+ErrorCode push(List* list, char* value, int amount);
 
-ErrorCode getPop(List* list, char* charValue, int* intValue);
+ErrorCode pop(List* list);
+
+size_t getAmount(const ListElement* const element);
+
+size_t listLength(const List* const list);
+
+ErrorCode changeElement(ListElement* const element, const size_t const amount);
 
 ErrorCode freeList(List* list);
 
 ErrorCode printList(List* list);
 
-size_t listSize(List* list);
-
-ErrorCode deleteElement(List* list, size_t index);
+ListElement* findElement(const List* const list, const char* const value);

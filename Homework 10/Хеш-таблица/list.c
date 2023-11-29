@@ -6,14 +6,15 @@
 
 typedef struct ListElement
 {
-    char* charValue;
-    int intValue;
+    char* value;
+    int frequency;
     ListElement* next;
 } ListElement;
 
 typedef struct List
 {
     ListElement* head;
+    size_t length;
 } List;
 
 List* createList()
@@ -21,7 +22,7 @@ List* createList()
     return (List*)calloc(1, sizeof(List));
 }
 
-ErrorCode push(List* list, char* charValue, int intValue)
+ErrorCode push(List* list, char* value, int frequency)
 {
     ListElement* newElement = (ListElement*)calloc(1, sizeof(ListElement));
 
@@ -30,11 +31,12 @@ ErrorCode push(List* list, char* charValue, int intValue)
         return MemoryAllocationError;
     }
 
-    newElement->intValue = intValue;
-    newElement->charValue = _strdup(charValue); // change ???
+    newElement->frequency = frequency;
+    newElement->value = _strdup(value); // change ???
 
     newElement->next = list->head;
     list->head = newElement;
+    ++list->length;
 
     return OK;
 }
@@ -48,29 +50,31 @@ ErrorCode pop(List* list)
 
     ListElement* trash = list->head;
     list->head = list->head->next;
+    --list->length;
 
-    free(trash->charValue);
+    free(trash->value);
     free(trash);
 
     return OK;
 }
 
-ErrorCode getPop(List* list, char* charValue, int* intValue) // doesnt work with char !!!
+size_t getAmount(const ListElement* const element)
 {
-    if (list->head == NULL)
+    return element->frequency;
+}
+
+size_t listLength(const List* const list)
+{
+    return list == NULL ? 0 : list->length;
+}
+
+ErrorCode changeElement(ListElement* const element, const size_t const frequency)
+{
+    if (element == NULL)
     {
         return NULLPointerError;
     }
-
-    ListElement* trash = list->head;
-    list->head = list->head->next;
-    charValue = _strdup(trash->charValue);
-    *intValue = trash->intValue;
-
-    free(trash->charValue);
-    free(trash);
-
-    return OK;
+    element->frequency = frequency;
 }
 
 ErrorCode freeList(List* list)
@@ -85,7 +89,7 @@ ErrorCode freeList(List* list)
         ListElement* trash = list->head;
         list->head = list->head->next;
 
-        free(trash->charValue);
+        free(trash->value);
         free(trash);
     }
 
@@ -104,46 +108,21 @@ ErrorCode printList(List* list)
     ListElement* head = list->head;
     while (head != NULL)
     {
-        printf("%s %d\n", head->charValue, head->intValue);
+        printf("%s %d\n", head->value, head->frequency);
         head = head->next;
     }
 }
 
-size_t listSize(List* list)
+ListElement* findElement(const List* const list, const char* const value)
 {
     if (list == NULL)
     {
-        return 0;
+        return NULL;
     }
-    
-    size_t size = 0;
-    ListElement* head = list->head;
-    while (head != NULL)
+    ListElement* current = list->head;
+    while (current != NULL && strcmp(current->value, value) != 0)
     {
-        ++size;
-        head = head->next;
+        current = current->next;
     }
-
-    return size;
-}
-
-ErrorCode deleteElement(List* list, size_t index)
-{
-    if (list == NULL)
-    {
-        return NULLPointerError;
-    }
-
-    size_t current = 0;
-    ListElement* head = list->head;
-
-    while (current != index && head != NULL) // is this enough checking for empty element ???
-    {
-        head = head->next;
-        ++current;
-    }
-
-    pop(head);
-
-    return OK;
+    return current;
 }

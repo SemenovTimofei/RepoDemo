@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "list.h"
 
 typedef struct ListElement
@@ -32,7 +28,7 @@ ErrorCode push(List* list, char* value, int frequency)
     }
 
     newElement->frequency = frequency;
-    newElement->value = _strdup(value); // change ???
+    newElement->value = _strdup(value);
 
     newElement->next = list->head;
     list->head = newElement;
@@ -83,13 +79,11 @@ ErrorCode freeList(List* list)
     {
         return NULLPointerError;
     }
-
     while (list->head != NULL)
     {
         ListElement* trash = list->head;
         list->head = list->head->next;
 
-        free(trash->value);
         free(trash);
     }
 
@@ -136,4 +130,24 @@ ListElement* findElement(const List* const list, const char* const value)
         current = current->next;
     }
     return current;
+}
+
+bool isPresent(const List* const list, const char* const value)
+{
+    if (list == NULL)
+    {
+        return false;
+    }
+
+    ListElement* current = list->head;
+
+    while (current != NULL)
+    {
+        if (strcmp(current->value, value) == 0)
+        {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
 }

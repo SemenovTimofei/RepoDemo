@@ -131,5 +131,5 @@ void freeTable(HashTable** table)
     }
 
     free(*table);
-    *table = NULL; // necessary ???
+    *table = NULL;
 }

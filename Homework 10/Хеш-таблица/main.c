@@ -3,10 +3,14 @@
 #include "list.h"
 #include "hash.h"
 
-#define MAX_LENGTH 50
-
 int main()
 {
+    if (!testing())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
+
     FILE* file = NULL;
     fopen_s(&file, "text.txt", "r");
     if (file == NULL)
@@ -27,6 +31,6 @@ int main()
     }
 
     printTable(table);
-    printf("Load factor: %f\nMax word frequency: %d\nAverage word frequency: %f\n", loadFactor(table), maxLength(table), averageLength(table));
-    // freeTable(&table); doesnt work
+    printf("\nLoad factor: %f\nMax word frequency: %d\nAverage word frequency: %f\n", loadFactor(table), maxLength(table), averageLength(table));
+    freeTable(&table);
 }

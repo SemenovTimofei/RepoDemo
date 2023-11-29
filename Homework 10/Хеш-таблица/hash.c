@@ -53,8 +53,7 @@ int insert(HashTable* table, const char* const value)
     }
     else
     {
-        changeElement(entry, getAmount(entry) + 1);
-        push(bucket, value, getAmount(entry));
+        push(bucket, value, getFrequency(entry) + 1);
     }
     return 0;
 }
@@ -77,7 +76,7 @@ size_t maxLength(const HashTable* const table)
     size_t maxLength = 0;
     for (size_t i = 0; i < table->size; ++i)
     {
-        if (table->items[i] != NULL && getAmount(table->items[i]) > maxLength)
+        if (table->items[i] != NULL && getFrequency(table->items[i]) > maxLength)
         {
             maxLength = listLength(table->items[i]);
         }
@@ -115,7 +114,7 @@ void printTable(const HashTable* const table)
     {
         if (table->items[i] != NULL)
         {
-            printf("%d idk\n", getAmount(table->items[i]));
+            printHead(table->items[i]);
         }
     }
 }

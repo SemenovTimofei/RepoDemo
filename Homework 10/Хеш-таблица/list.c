@@ -58,7 +58,7 @@ ErrorCode pop(List* list)
     return OK;
 }
 
-size_t getAmount(const ListElement* const element)
+size_t getFrequency(const ListElement* const element)
 {
     return element->frequency;
 }
@@ -111,6 +111,17 @@ ErrorCode printList(List* list)
         printf("%s %d\n", head->value, head->frequency);
         head = head->next;
     }
+    return OK;
+}
+
+ErrorCode printHead(List* list)
+{
+    if (list == NULL)
+    {
+        return NULLPointerError;
+    }
+    printf("%s %d\n", list->head->value, list->head->frequency);
+    return OK;
 }
 
 ListElement* findElement(const List* const list, const char* const value)

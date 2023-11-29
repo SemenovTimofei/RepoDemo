@@ -28,5 +28,5 @@ int main()
 
     printTable(table);
     printf("Load factor: %f\nMax word frequency: %d\nAverage word frequency: %f\n", loadFactor(table), maxLength(table), averageLength(table));
-    freeTable(&table);
+    // freeTable(&table); doesnt work
 }

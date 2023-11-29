@@ -127,7 +127,7 @@ void freeTable(HashTable** table)
     }
     for (size_t i = 0; i < (*table)->size; ++i)
     {
-        freeList(&(*table)->items[i]);
+        freeList((*table)->items[i]);
     }
 
     free(*table);

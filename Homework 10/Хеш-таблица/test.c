@@ -5,6 +5,8 @@
 
 bool testing()
 {
+    bool testingPassed = true;
+    
     List* list = createList();
 
     const char value[5][2] = { "1", "2", "3", "4", "5" };
@@ -12,7 +14,7 @@ bool testing()
     {
         if (push(list, value[i], 1) != OK)
         {
-            return false;
+            testingPassed = false;
         }
     }
     
@@ -20,17 +22,17 @@ bool testing()
     {
         if (pop(list) != OK)
         {
-            return false;
+            testingPassed = false;
         }
     }
     
     if (!isPresent(list, "1") || !isPresent(list, "2") || !isPresent(list, "3"))
     {
-        return false;
+        testingPassed = false;
     }
     if (isPresent(list, "4") || isPresent(list, "5"))
     {
-        return false;
+        testingPassed = false;
     }
 
     freeList(list);
@@ -39,7 +41,7 @@ bool testing()
     fopen_s(&file, "test.txt", "r");
     if (file == NULL)
     {
-        return false;
+        testingPassed = false;
     }
 
     HashTable* table = createTable();
@@ -48,18 +50,19 @@ bool testing()
     {
         if (insert(table, word) == 1)
         {
-            return false;
+            testingPassed = false;
         }
     }
 
     if (maxLength(table) != 5)
     {
-        return false;
+        testingPassed = false;
     }
     if (averageLength(table) != 3)
     {
-        return false;
+        testingPassed = false;
     }
 
-    return true;
+    freeTable(&table);
+    return testingPassed;
 }

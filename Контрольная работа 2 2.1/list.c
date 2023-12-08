@@ -27,7 +27,6 @@ ErrorCode push(List* list, int value)
     }
 
     newElement->value = value;
-    newElement->next = list->head;
     list->head = newElement;
     ++list->length;
 

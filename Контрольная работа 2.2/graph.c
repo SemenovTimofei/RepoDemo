@@ -4,34 +4,20 @@
 
 typedef struct Graph
 {
-	List** relation;
-    size_t amountOfVertices;
+    List** relation;
 } Graph;
 
-int initialiseTable(List*** const table, const size_t length)
+int initialiseTable()
 {
-    if (*table == NULL)
-    {
-        return 1;
-    }
-    for (size_t i = 0; i < length; ++i)
-    {
-        (*table)[i] = createList();
-        if ((*table)[i] == NULL)
-        {
-            return 1;
-        }
-    }
-    return 0;
+    return (Graph*)calloc(1, sizeof(Graph));
 }
 
-void freeTable(List*** const table, const size_t length)
+void freeRelation(List*** relation)
 {
-    for (size_t i = 0; i < length; ++i)
-    {
-        freeList(&(*table)[i]);
-    }
-    free(*table);
-    *table = NULL;
+    
 }
 
+int addToTable(Graph* graph)
+{
+
+}

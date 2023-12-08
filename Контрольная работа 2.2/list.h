@@ -20,15 +20,11 @@ typedef struct List List;
 
 List* createList();
 
-ErrorCode push(List* list, char* value, int frequency);
+ErrorCode push(List* list, int value);
 
 ErrorCode pop(List* list);
 
-size_t getFrequency(const ListElement* const element);
-
 size_t listLength(const List* const list);
-
-ErrorCode changeElement(ListElement* const element, const size_t const frequency);
 
 ErrorCode freeList(List* list);
 

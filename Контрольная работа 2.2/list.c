@@ -17,7 +17,7 @@ List* createList()
     return (List*)calloc(1, sizeof(List));
 }
 
-ErrorCode push(List* list, char* value, int frequency)
+ErrorCode push(List* list, int value)
 {
     ListElement* newElement = (ListElement*)calloc(1, sizeof(ListElement));
 
@@ -26,9 +26,7 @@ ErrorCode push(List* list, char* value, int frequency)
         return MemoryAllocationError;
     }
 
-    newElement->frequency = frequency;
-    newElement->value = _strdup(value);
-
+    newElement->value = value;
     newElement->next = list->head;
     list->head = newElement;
     ++list->length;
@@ -53,23 +51,9 @@ ErrorCode pop(List* list)
     return OK;
 }
 
-size_t getFrequency(const ListElement* const element)
-{
-    return element->frequency;
-}
-
 size_t listLength(const List* const list)
 {
     return list == NULL ? 0 : list->length;
-}
-
-ErrorCode changeElement(ListElement* const element, const size_t const frequency)
-{
-    if (element == NULL)
-    {
-        return NULLPointerError;
-    }
-    element->frequency = frequency;
 }
 
 ErrorCode freeList(List* list)
@@ -101,7 +85,7 @@ ErrorCode printList(List* list)
     ListElement* head = list->head;
     while (head != NULL)
     {
-        printf("%s %d\n", head->value, head->frequency);
+        printf("%d\n", head->value);
         head = head->next;
     }
     return OK;
@@ -113,7 +97,7 @@ ErrorCode printHead(List* list)
     {
         return NULLPointerError;
     }
-    printf("%s %d\n", list->head->value, list->head->frequency);
+    printf("%d\n", list->head->value);
     return OK;
 }
 

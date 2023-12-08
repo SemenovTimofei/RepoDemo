@@ -1,23 +1,20 @@
-#include <stdio.h>
-
-#include "list.h"
+#include "graph.h"
 
 typedef struct Graph
 {
-    List** relation;
+    List** edge;
 } Graph;
 
-int initialiseTable()
+int createGraph()
 {
     return (Graph*)calloc(1, sizeof(Graph));
 }
 
-void freeRelation(List*** relation)
+int addToTable(Graph* graph, int vertex1, int vertex2)
 {
+    List* newEdge = createList();
+    push(newEdge, vertex1);
+    push(newEdge, vertex2);
     
-}
-
-int addToTable(Graph* graph)
-{
-
+    printList(newEdge);
 }

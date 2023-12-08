@@ -12,5 +12,4 @@ int main()
     push(list, 3);
 
     printList(list);
-
 }

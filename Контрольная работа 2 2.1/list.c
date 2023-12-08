@@ -83,3 +83,10 @@ ErrorCode printList(List* list)
     }
     return OK;
 }
+
+List* flipList(List* list)
+{
+    size_t length = list->length;
+
+
+}

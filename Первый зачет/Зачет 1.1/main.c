@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define EXPRESSION_SIZE 50
+
 void smallNumber(char num[], size_t size)
 {
 	for (int i = 0; i < size - 1; ++i)
@@ -74,9 +76,16 @@ int main()
 		return 1;
 	}
 
-    char num[] = "987612345";
-    smallNumber(num, strlen(num));
-	printf("The smallest number: %s\n", num);
+	printf("Input number:\n");
+	char number[EXPRESSION_SIZE];
+	if (scanf_s("%s", number, sizeof(number)) != 1)
+	{
+		printf("Invalid input\n");
+		return 1;
+	}
+
+	smallNumber(number, strlen(number));
+	printf("The smallest number: %s\n", number);
 
 	return 0;
 }

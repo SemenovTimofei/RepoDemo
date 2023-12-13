@@ -8,10 +8,9 @@ typedef struct List
     int key;
     int value;
     List* next;
-
 } List;
 
-int enqueue(List** head, int key, int value)
+int enqueue(List** head, int value, int key)
 {
     List* temporary = calloc(1, sizeof(List));
 
@@ -56,50 +55,24 @@ int enqueue(List** head, int key, int value)
     return 0;
 }
 
-int pop(List** head)
+int dequeue(List** head)
 {
     if ((*head) == NULL)
     {
-        return NULL;
+        return -1;
+    }
+
+    while ((*head)->next != NULL)
+    {
+        (*head) = (*head)->next;
     }
 
     List* trash = (*head);
     (*head) = (*head)->next;
-    int temporary = trash->key;
-    free(temporary);
+    int value = trash->value;
+    free(trash);
 
-    return trash;
-}
-
-List* getElement(List* head, size_t index)
-{
-    while (head != NULL && index > 0)
-    {
-        head = head->next;
-        --index;
-    }
-
-    return head;
-}
-
-int deleteElement(List** head, size_t index)
-{
-    if (index == 0)
-    {
-        return pop(head);
-    }
-    List* previous = getElement(*head, index - 1);
-    List* element = previous->next;
-    if (element == NULL)
-    {
-        return NULL;
-    }
-
-    int temporary = element->key;
-    previous->next = element->next;
-
-    free(element);
-    return temporary;
+    return value;
 }
 
 void deleteList(List** head)
@@ -116,9 +89,9 @@ void deleteList(List** head)
 
 void printList(const List* head)
 {
-    while (head)
+    while (head != 0)
     {
-        printf("%d %d\n", head->key, head->value);
+        printf("%d %d\n", head->value, head->key);
         head = head->next;
     }
 }

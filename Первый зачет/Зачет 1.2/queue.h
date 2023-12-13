@@ -7,10 +7,10 @@
 typedef struct List List;
 
 // adds an element to the list
-int enqueue(List** head, int key, int value);
+int enqueue(List** head, int value, int key);
 
 // deletes the head element
-int pop(List** head);
+int dequeue(List** head);
 
 // returns a key of an element at a given index
 List* getElement(List* head, size_t index);

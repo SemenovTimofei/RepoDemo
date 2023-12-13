@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "queue.h"
+#include "test.h"
 
 int main()
 {
@@ -51,7 +52,7 @@ int main()
 				return 1;
 			}
 
-			push(&list, key, value);
+			enqueue(&list, key, value);
 			++elementCount;
 
 			break;

@@ -25,46 +25,49 @@ void deleteCopies(char string[])
 
 bool testing()
 {
+    bool flag = true;
     FILE* file1 = NULL;
     fopen_s(&file1, "test1.txt", "r");
     if (file1 == NULL)
     {
-        return false;
+        flag = false;
     }
 
     char string1[MAX_LENGTH] = { '\0' };
     if (fscanf_s(file1, "%s", string1, MAX_LENGTH) != 1)
     {
-        return false;
+        flag = false;
     }
 
     deleteCopies(string1);
     if (strcmp(string1, "ababababab") != 0)
     {
-        return false;
+        flag = false;
     }
+
+    fclose(file1);
 
     FILE* file2 = NULL;
     fopen_s(&file2, "test2.txt", "r");
     if (file2 == NULL)
     {
-        return false;
+        flag = false;
     }
 
     char string2[MAX_LENGTH] = { '\0' };
     if (fscanf_s(file2, "%s", string2, MAX_LENGTH) != 1)
     {
-        return false;
+        flag = false;
     }
 
     deleteCopies(string2);
-    if (strcmp(string2, "abababa\nqwewrty") != 0)
+    if (strcmp(string2, "abababa") != 0)
     {
-        return false;
-        printf("f %s f", string2);
+        flag = false;
     }
 
-    return true;
+    fclose(file2);
+    return flag;
 }
 
 int main()
@@ -74,11 +77,13 @@ int main()
         printf("Testing failed\n");
         return 1;
     }
+
     FILE* file = NULL;
     fopen_s(&file, "text.txt", "r");
     if (file == NULL)
     {
         printf("Error openning file\n");
+        fclose(file);
         return 1;
     }
 
@@ -91,5 +96,6 @@ int main()
     deleteCopies(string);
     printf("The edited string: %s\n", string);
 
+    fclose(file);
     return 0;
 }

@@ -6,7 +6,7 @@
 void deleteCopies(char string[])
 {
     char* newString = string;
-    char* example = string + 1;
+    char* example = string + '\0';
 
     while (*example != NULL)
     {
@@ -89,6 +89,8 @@ int main()
     if (fscanf_s(file, "%s", string, MAX_LENGTH) != 1)
     {
         printf("Error openning file\n");
+        fclose(file);
+        return 1;
     }
 
     printf("The original string: %s\n", string);

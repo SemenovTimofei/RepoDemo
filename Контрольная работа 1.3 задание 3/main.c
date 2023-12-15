@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <stdbool.h>
 
 #define MAX_LENGTH 100
@@ -93,6 +91,7 @@ int main()
         printf("Error openning file\n");
     }
 
+    printf("The original string: %s\n", string);
     deleteCopies(string);
     printf("The edited string: %s\n", string);
 

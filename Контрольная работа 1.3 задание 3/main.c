@@ -40,7 +40,7 @@ bool testing()
     }
 
     deleteCopies(string1);
-    if (strcmp(string1, "ababababab") != 0)
+    if (strcmp(string1, "ababababab\qwewrty") != 0)
     {
         flag = false;
     }

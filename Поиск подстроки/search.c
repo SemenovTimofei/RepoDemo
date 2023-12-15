@@ -3,7 +3,7 @@
 #define MODULUS 101
 #define ALPHABET_SIZE 256
 
-size_t find(char string[], char pattern[])
+int find(char string[], char pattern[])
 {
     size_t patternLength = strlen(pattern);
     size_t stringLength = strlen(string);
@@ -46,5 +46,5 @@ size_t find(char string[], char pattern[])
         }
     }
 
-    return 0;
+    return -1;
 }

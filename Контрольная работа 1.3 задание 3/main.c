@@ -1,25 +1,31 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define MAX_LENGTH 100
 
-char* makeString(char string[], size_t length)
+void deleteCopies(char string[])
 {
-    char* newString = malloc(MAX_LENGTH);
+    char* current = string;
+    char* example = string + 1;
 
-    for (size_t i = 0; i < length - 1; ++i)
+    while (*example != NULL)
     {
-        if (string[i] != string[i + 1])
+        if (*example != *current)
         {
-            printf("%c", string[i]);
-            newString[i] = string[i];
-            //printf("help %c\n", newString);
+            ++current;
+            *current = *example;
         }
+        ++example;
     }
-    
-    //printf("pls %s\n", newString);
-    return string;
+
+    *(++current) = '\0';
+}
+
+bool testing()
+{
+
 }
 
 int main()
@@ -32,20 +38,15 @@ int main()
         return 1;
     }
 
-    
     char string[MAX_LENGTH] = { '\0' };
     if (fscanf_s(file, "%s", string, MAX_LENGTH) != 1)
     {
         printf("Error openning file\n");
     }
 
-    /*
-    char* newString = malloc(MAX_LENGTH);
-    strcpy_s(newString, sizeof(string), string);
-    printf("test %s test", newString);
-    */
-
-
-    makeString(string, strlen(string));
-    //printf("aboba %s\n", makeString(string, strlen(string)));
+    deleteCopies(string);
+    printf("The edited string: %s\n", string);
 }
+
+// aababaasddsaaabsaasss
+// ababasdsabsas

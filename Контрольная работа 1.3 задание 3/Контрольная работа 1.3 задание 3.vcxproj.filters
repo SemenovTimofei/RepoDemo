@@ -23,5 +23,11 @@
     <Text Include="text.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="test1.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="test2.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>

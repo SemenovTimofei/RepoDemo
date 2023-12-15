@@ -40,7 +40,7 @@ bool testing()
     }
 
     deleteCopies(string1);
-    if (strcmp(string1, "ababababab\qwewrty") != 0)
+    if (strcmp(string1, "ababababab") != 0)
     {
         flag = false;
     }
@@ -61,7 +61,7 @@ bool testing()
     }
 
     deleteCopies(string2);
-    if (strcmp(string2, "abababa") != 0)
+    if (strcmp(string2, "abababa\qwewrty") != 0) // the function doesn't work with line breaks, so the testing will be failed
     {
         flag = false;
     }

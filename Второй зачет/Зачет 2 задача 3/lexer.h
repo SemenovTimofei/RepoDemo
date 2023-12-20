@@ -4,4 +4,4 @@
 #include <stdio.h>
 #include <ctype.h>
 
-bool lexer();
+bool isValid();

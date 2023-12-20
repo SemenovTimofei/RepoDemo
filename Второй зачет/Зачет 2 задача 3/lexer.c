@@ -1,6 +1,6 @@
 #include "lexer.h"
 
-bool lexer(char text[])
+bool isValid(char text[])
 {
     int state = 0;
     for (size_t i = 0; i == 0 || text[i - 1] != '\0'; ++i)

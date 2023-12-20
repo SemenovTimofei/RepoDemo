@@ -10,7 +10,7 @@ int main()
     push(&queue, 3);
     printQueue(queue);
 
-    dequeue(&queue);
+    dequeue(&queue); // couldnt finish dequeue properly
     printQueue(queue);
 
     return 0;

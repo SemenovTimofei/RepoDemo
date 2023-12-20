@@ -36,7 +36,6 @@ int push(Queue** queue, int value)
     next->value = value;
     next->next = (*queue)->first;
     (*queue)->first = next;
-    printf("testing %d\n", (*queue)->first->value);
     return 0;
 }
 
@@ -44,15 +43,15 @@ int pop(Stack** head)
 {
     if ((*head) == NULL)
     {
-        return 1;
+        return NULL;
     }
 
     Stack* trash = *head;
     *head = (*head)->next;
-    // char value = trash->value;
+    int value = trash->value;
 
     free(trash);
-    return 0;
+    return value;
 }
 
 int top(Stack* head)
@@ -73,11 +72,15 @@ void printQueue(Queue* queue)
 
 int dequeue(Queue** queue)
 {
-    if ((*queue)->second = NULL)
+    if ((*queue)->second != NULL)
     {
-        printf("empty\n");
-        (*queue)->second = (*queue)->first;
+        return pop(&((*queue)->second));
     }
-    //printf("check %d value\n", (*queue)->second->value);
-    return pop(&((*queue)->second));
+    while ((*queue)->first != NULL)
+    {
+        push(&((*queue)->second), pop(&(*queue)->first));
+    }
+    
+    pop(&(*queue)->second);
+    return 0;
 }

@@ -4,6 +4,7 @@ void printComment(FILE* file)
 {
     int state = start;
     char current = '\0';
+    char previousSymbol = '\0';
 
     while (current != EOF)
     {
@@ -45,6 +46,7 @@ void printComment(FILE* file)
                 printf("%c", current);
                 break;
             }
+            previousSymbol = current;
             state = closingAsterisk;
             break;
         }
@@ -55,9 +57,15 @@ void printComment(FILE* file)
                 state = start;
                 break;
             }
+            printf("%c%c", previousSymbol, current);
             state = comment;
             break;
         }
         }
+    }
+
+    if (state != start)
+    {
+        printf("\nIncomplete comment\n");
     }
 }

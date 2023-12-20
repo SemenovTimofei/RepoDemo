@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include <string.h>
+
 enum states
 {
     start = 0,

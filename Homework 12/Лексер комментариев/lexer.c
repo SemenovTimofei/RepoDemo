@@ -18,6 +18,7 @@ char* getComment(FILE* file)
         {
             if (current == '/')
             {
+                previousSymbol = current;
                 state = openningSlash;
                 break;
             }
@@ -26,6 +27,12 @@ char* getComment(FILE* file)
         {
             if (current == '*')
             {
+                size += 2;
+                string = realloc(string, size);
+                string[size - 2] = previousSymbol;
+                string[size - 1] = current;
+                string[size] = '\0';
+
                 state = openningAsterisk;
                 break;
             }
@@ -40,6 +47,7 @@ char* getComment(FILE* file)
                 string = realloc(string, size);
                 string[size - 1] = current;
                 string[size] = '\0';
+
                 state = comment;
                 break;
             }
@@ -48,30 +56,31 @@ char* getComment(FILE* file)
         }
         case comment:
         {
-            if (current != '*')
+            ++size;
+            string = realloc(string, size);
+            string[size - 1] = current;
+            string[size] = '\0';
+
+            if (current == '*')
             {
-                ++size;
-                string = realloc(string, size);
-                string[size - 1] = current;
-                string[size] = '\0';
+                previousSymbol = current;
+                state = closingAsterisk;
                 break;
             }
-            previousSymbol = current;
-            state = closingAsterisk;
             break;
         }
         case closingAsterisk:
         {
+            ++size;
+            string = realloc(string, size);
+            string[size - 1] = current;
+            string[size] = '\0';
+
             if (current == '/')
             {
                 state = start;
                 break;
             }
-            size += 2;
-            string = realloc(string, size);
-            string[size - 2] = previousSymbol;
-            string[size - 1] = current;
-            string[size] = '\0';
 
             state = comment;
             break;

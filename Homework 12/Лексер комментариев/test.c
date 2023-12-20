@@ -9,7 +9,7 @@ bool testing()
         fclose(file1);
         return false;
     }
-    if (strcmp(getComment(file1), "four ->*<- // *** five") != 0)
+    if (strcmp(getComment(file1), "/*four ->*<- // *** five*/") != 0)
     {
         fclose(file1);
         return false;
@@ -23,7 +23,7 @@ bool testing()
         fclose(file2);
         return false;
     }
-    if (strcmp(getComment(file2), "this\nis\nan\nexample\nusing\nline\nbreaks\nmultiple comments") != 0)
+    if (strcmp(getComment(file2), "/*this\nis\nan\nexample\nusing\nline\nbreaks\n*//*multiple comments*/") != 0)
     {
         fclose(file2);
         return false;

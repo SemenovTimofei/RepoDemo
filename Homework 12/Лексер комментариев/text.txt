@@ -13,5 +13,5 @@ int comment()
     */
     a += 9;
     int b = a / 2;
-    /* Some more text */
+    /*Some more text*/
 }

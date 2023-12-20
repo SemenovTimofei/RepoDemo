@@ -1,0 +1,8 @@
+example /*this
+is
+an
+example
+using
+line
+breaks
+*/ and /*multiple comments*/

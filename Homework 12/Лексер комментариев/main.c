@@ -1,18 +1,24 @@
 #include "lexer.h"
+#include "test.h"
 
 int main()
 {
+    if (!testing())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
+
     FILE* file = NULL;
-    // text.txt is used to show how an uncompleted comment works
-    // text.c is given to show how it works with c file (there's no difference as far as I know)
     fopen_s(&file, "text.txt", "r"); 
     if (file == NULL)
     {
         printf("Error openning file\n");
+        fclose(file);
         return 1;
     }
 
-    printComment(file);
+    printf("%s", getComment(file));
 
     fclose(file);
     return 0;

@@ -1,10 +1,13 @@
 #include "lexer.h"
 
-void printComment(FILE* file)
+char* getComment(FILE* file)
 {
     int state = start;
     char current = '\0';
     char previousSymbol = '\0';
+
+    char* string = NULL;
+    size_t size = 0;
 
     while (current != EOF)
     {
@@ -33,6 +36,10 @@ void printComment(FILE* file)
         {
             if (current != '*')
             {
+                ++size;
+                string = realloc(string, size);
+                string[size - 1] = current;
+                string[size] = '\0';
                 state = comment;
                 break;
             }
@@ -43,7 +50,10 @@ void printComment(FILE* file)
         {
             if (current != '*')
             {
-                printf("%c", current);
+                ++size;
+                string = realloc(string, size);
+                string[size - 1] = current;
+                string[size] = '\0';
                 break;
             }
             previousSymbol = current;
@@ -57,15 +67,16 @@ void printComment(FILE* file)
                 state = start;
                 break;
             }
-            printf("%c%c", previousSymbol, current);
+            size += 2;
+            string = realloc(string, size);
+            string[size - 2] = previousSymbol;
+            string[size - 1] = current;
+            string[size] = '\0';
+
             state = comment;
             break;
         }
         }
     }
-
-    if (state != start)
-    {
-        printf("\nIncomplete comment\n");
-    }
+    return string;
 }

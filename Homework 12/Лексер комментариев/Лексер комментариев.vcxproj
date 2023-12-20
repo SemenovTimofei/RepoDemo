@@ -129,12 +129,15 @@
   <ItemGroup>
     <ClCompile Include="lexer.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="text.c" />
+    <ClCompile Include="test.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.h" />
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="test1.txt" />
+    <Text Include="test2.txt" />
     <Text Include="text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,9 +1,7 @@
 #pragma once
 
-#include <stdbool.h>
 #include <stdio.h>
-
-#include <string.h>
+#include <stdlib.h>
 
 enum states
 {
@@ -15,4 +13,4 @@ enum states
     closingSlash = 5
 };
 
-void printComment(FILE* file);
+char* getComment(FILE* file);

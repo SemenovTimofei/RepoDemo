@@ -127,7 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="graph.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="test.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt" />
+    <Text Include="output.txt" />
+    <Text Include="testInput.txt" />
+    <Text Include="testOutput.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="graph.h" />
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

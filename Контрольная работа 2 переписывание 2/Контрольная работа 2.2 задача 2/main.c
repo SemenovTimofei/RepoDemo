@@ -1,65 +1,14 @@
-#include <stdio.h>
-
-#define MAX_SIZE 100
-
-void printMatrix(int matrix[MAX_SIZE][MAX_SIZE], size_t n)
-{
-    for (size_t i = 0; i < n; ++i)
-    {
-        for (size_t j = 0; j < n; ++j)
-        {
-            printf("%d ", matrix[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-void writeToFile(int matrix[MAX_SIZE][MAX_SIZE], size_t n) // change to FILE* file later
-{
-    FILE* output = fopen("output.txt", "w");
-    for (size_t i = 0; i < n; ++i)
-    {
-        for (size_t j = 0; j < n; ++j)
-        {
-            fprintf(output, "%d ", matrix[i][j]);
-        }
-        fprintf(output, "\n");
-    }
-
-    printMatrix(matrix, n);
-    fclose(output);
-    return;
-}
-
-void transitiveClosure(int matrix[MAX_SIZE][MAX_SIZE], size_t n)
-{
-    int newMatrix[MAX_SIZE][MAX_SIZE];
-    for (size_t i = 0; i < n; ++i)
-    {
-        for (size_t j = 0; j < n; ++j)
-        {
-            newMatrix[i][j] = matrix[i][j];
-        }
-    }
-
-    for (size_t k = 0; k < n; ++k)
-    {
-        for (size_t i = 0; i < n; ++i)
-        {
-            for (size_t j = 0; j < n; ++j)
-            {
-                newMatrix[i][j] = newMatrix[i][j] || (newMatrix[i][k] && newMatrix[k][j]);
-            }
-        }
-    }
-    
-    writeToFile(newMatrix, n);
-    return;
-}
+#include "graph.h"
+#include "test.h"
 
 int main()
 {
-    size_t n = 0;
+    if (!testing())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
+
     FILE* input = NULL;
     fopen_s(&input, "input.txt", "r");
     if (input == NULL)
@@ -67,6 +16,8 @@ int main()
         printf("Error openning file\n");
         return 1;
     }
+
+    size_t n = 0;
     fscanf_s(input, "%d", &n);
 
     int matrix[MAX_SIZE][MAX_SIZE];
@@ -78,9 +29,10 @@ int main()
         }
     }
 
+    printf("The original matrix: \n");
     printMatrix(matrix, n);
-    printf("\n");
-    transitiveClosure(matrix, n);
+
+    transitiveClosure(matrix, n, "output.txt");
 
     fclose(input);
     return 0;

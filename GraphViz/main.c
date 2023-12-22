@@ -6,6 +6,7 @@
 
 int main()
 {
+    // GraphVizDotExe is system path for C:\Program Files\Graphviz\bin\dot.exe
     char* dotExePath = getenv("GraphVizDotExe");
     if (dotExePath == NULL)
     {
@@ -50,7 +51,7 @@ int main()
     system(command);
 
     sprintf_s(command, EXPRESSION_SIZE, "start %s", pngFileName);
-    system(command, pngFileName);
+    system(command);
 
     return 0;
 }

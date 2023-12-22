@@ -19,7 +19,7 @@ int main()
     }
 
     size_t n = 0;
-    fscanf_s(input, "%d", &n);
+    fscanf_s(input, "%zd", &n);
 
     int matrix[MAX_SIZE][MAX_SIZE];
     for (size_t i = 0; i < n; ++i)

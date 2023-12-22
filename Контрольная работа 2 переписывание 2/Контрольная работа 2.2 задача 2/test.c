@@ -27,7 +27,7 @@ bool testing()
     }
 
     size_t n = 0;
-    fscanf_s(file, "%d", &n);
+    fscanf_s(file, "%zd", &n);
 
     int matrix[MAX_SIZE][MAX_SIZE];
     for (size_t i = 0; i < n; ++i)

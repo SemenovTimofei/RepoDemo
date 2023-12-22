@@ -55,8 +55,32 @@ bool testing()
         }
     }
 
-    int secondMatrix[MAX_SIZE][MAX_SIZE];
+    // correct matrix
+    int secondMatrix[MAX_SIZE][MAX_SIZE] = { 
+        { 0, 1, 1, 1, 1, 1 }, 
+        { 0, 0, 1, 1, 1, 1 },  
+        { 0, 0, 0, 1, 1, 1 }, 
+        { 0, 0, 0, 0, 0, 0 }, 
+        { 0, 0, 0, 1, 0, 1 }, 
+        { 0, 0, 0, 0, 0, 0 } };
 
+    if (!compareMatrices(firstMatrix, secondMatrix, n))
+    {
+        return false;
+    }
+
+    // incorrect matrix (just like the second matrix, but the last line is changed)
+    int thirdMatrix[MAX_SIZE][MAX_SIZE] = {
+        { 0, 1, 1, 1, 1, 1 },
+        { 0, 0, 1, 1, 1, 1 },
+        { 0, 0, 0, 1, 1, 1 },
+        { 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 1, 0, 1 },
+        { 0, 0, 0, 0, 0, 1 } };
+    if (compareMatrices(firstMatrix, thirdMatrix, n))
+    {
+        return false;
+    }
 
     return true;
 }

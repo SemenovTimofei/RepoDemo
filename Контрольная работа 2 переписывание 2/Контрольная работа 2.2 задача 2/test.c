@@ -22,6 +22,7 @@ bool testing()
     fopen_s(&file, "testInput.txt", "r");
     if (file == NULL)
     {
+        fclose(file);
         return false;
     }
 
@@ -43,6 +44,7 @@ bool testing()
     fopen_s(&input, "testOutput.txt", "r");
     if (input == NULL)
     {
+        fclose(input);
         return false;
     }
 

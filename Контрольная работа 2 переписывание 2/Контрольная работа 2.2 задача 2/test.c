@@ -77,6 +77,7 @@ bool testing()
         { 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 1, 0, 1 },
         { 0, 0, 0, 0, 0, 1 } };
+
     if (compareMatrices(firstMatrix, thirdMatrix, n))
     {
         return false;

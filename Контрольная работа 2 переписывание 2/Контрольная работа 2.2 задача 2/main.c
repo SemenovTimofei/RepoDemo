@@ -46,6 +46,18 @@ void transitiveClosure(int matrix[MAX_SIZE][MAX_SIZE], size_t n)
 	return;
 }
 
+void printMatrix(int matrix[MAX_SIZE][MAX_SIZE], size_t n)
+{
+	for (size_t i = 0; i < n; ++i)
+	{
+		for (size_t j = 0; j < n; ++j)
+		{
+			printf("%d ", matrix[i][j]);
+		}
+		printf("\n");
+	}
+}
+
 int main()
 {
 	/*
@@ -64,7 +76,14 @@ int main()
 	*/
 
 	size_t n = 0;
-	FILE* input = fscanf_s(&input, "%d", &n);
+	FILE* input = NULL;
+	fopen_s(&input, "input.txt", "r");
+	if (input == NULL)
+	{
+		printf("Error openning file\n");
+		return 1;
+	}
+	fscanf_s(input, "%d", &n);
 
 	int matrix[MAX_SIZE][MAX_SIZE];
 	for (size_t i = 0; i < n; ++i)
@@ -75,10 +94,10 @@ int main()
 		}
 	}
 
+	printMatrix(matrix, n);
+	printf("\n");
 	transitiveClosure(matrix, n);
-
+	printMatrix(matrix, n);
 	fclose(input);
-
-
 	return 0;
 }

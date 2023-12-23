@@ -5,24 +5,24 @@
 
 bool bracketBalance(char text[])
 {
-    int count = 0;
+    int bracketCount = 0;
     for (size_t i = 0; text[i] != '\0'; ++i)
     {
         if (text[i] == '(')
         {
-            ++count;
+            ++bracketCount;
         }
         else if (text[i] == ')')
         {
-            --count;
+            --bracketCount;
         }
-        if (count < 0)
+        if (bracketCount < 0)
         {
             return false;
         }
     }
 
-    return count == 0;
+    return bracketCount == 0;
 }
 
 bool testing()

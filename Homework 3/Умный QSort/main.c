@@ -128,9 +128,11 @@ bool testing()
     quickSort(array2, 0, 49);
     if (!isSorted(array2, 50))
     {
+        free(array2);
         return false;
     }
-    
+
+    free(array2);
     return true;
 }
 
@@ -159,5 +161,6 @@ int main()
     printf("Sorted array: \n");
     printArray(array, size);
 
+    free(array);
     return 0;
 }

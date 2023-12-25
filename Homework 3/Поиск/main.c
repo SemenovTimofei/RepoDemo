@@ -9,232 +9,129 @@ void swap(int* firstValue, int* secondValue)
     *secondValue = temporaryValue;
 }
 
-void printArray(int array[], int size)
+void printArray(int* array, size_t size)
 {
-    for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; ++i)
     {
         printf("%d ", array[i]);
     }
-
     printf("\n");
 }
 
-void insertionSort(int array[], int size)
+void insertionSort(int array[], size_t start, size_t end)
 {
-    for (int i = 1; i < size; ++i)
+    for (size_t i = start + 1; i <= end; ++i)
     {
-        int comparedElement = array[i];
-        int j = i - 1;
-
-        while (j >= 0 && array[j] > comparedElement)
+        int key = array[i];
+        size_t j = i - 1;
+        while (j >= start && array[j] > key)
         {
             array[j + 1] = array[j];
             --j;
         }
-
-        array[j + 1] = comparedElement;
+        array[j + 1] = key;
     }
 }
 
-int smallNumberPartition(int array[], int size)
-{
-    int i = 0;
-    int temporaryValue = 0;
-    int j = size - 1;
-
-    // move all numbers less than 10 to the left
-    while (i < j)
-    {
-        while (array[i] < 10 && i < j)
-        {
-            ++i;
-        }
-
-        while (array[j] >= 10 && i < j)
-        {
-            --j;
-        }
-
-        if (i < j)
-        {
-            temporaryValue = array[i];
-            array[i] = array[j];
-            array[j] = temporaryValue;
-        }
-    }
-
-    // return array position at which numbers greater than 9 start
-    for (int i = 0; i < size; ++i)
-    {
-        if (array[i] > 9)
-        {
-            return i;
-        }
-    }
-
-    return 0;
-}
-
-int partition(int array[], int start, int end)
+size_t partition(int array[], size_t start, size_t end)
 {
     int pivot = array[start];
-    int i = start + 1;
-    int j = end;
-
-    while (i <= j)
+    size_t i = start;
+    size_t j = end;
+    while (i < j)
     {
-        while (array[i] < pivot && i <= end)
+        while (array[i] <= pivot && i < end)
         {
             ++i;
         }
-
-        while (array[j] > pivot && j >= start + 1)
+        while (array[j] > pivot)
         {
             --j;
         }
-
-        if (i <= j)
+        if (i < j)
         {
             swap(&array[i], &array[j]);
-            ++i;
-            --j;
         }
     }
-
     swap(&array[start], &array[j]);
-
     return j;
 }
 
-void quickSort(int array[], int start, int end)
+void quickSort(int array[], size_t start, size_t end)
 {
     if (start < end)
     {
-        int pivotIndex = partition(array, start, end);
-        quickSort(array, start, pivotIndex - 1);
-        quickSort(array, pivotIndex + 1, end);
+        if (end - start < 10)
+        {
+            insertionSort(array, start, end);
+            return;
+        }
+        size_t pivot = partition(array, start, end);
+        quickSort(array, start, pivot - 1);
+        quickSort(array, pivot + 1, end);
     }
 }
 
-bool binarySearch(int array[], int start, int end, int key)
+int* createRandomArray(size_t size)
 {
-    // sort the main array
-    int quickSortStart = smallNumberPartition(array, end);
-    insertionSort(array, quickSortStart + 1);
-    quickSort(array, quickSortStart, end - 1);
-
-    // binary search for key element
-    if (start <= end)
+    int* array = (int*)calloc(size, sizeof(int));
+    if (array == NULL)
     {
-        int middle = start + (end - start) / 2;
-
-        if (array[middle] == key)
-            return true;
-
-        if (array[middle] > key)
-            return binarySearch(array, start, middle - 1, key);
-
-        return binarySearch(array, middle + 1, end, key);
+        return NULL;
     }
-
-    return false;
+    srand(time(NULL));
+    for (size_t i = 0; i < size; ++i)
+    {
+        array[i] = rand();
+    }
+    return array;
 }
 
-bool testCorrectCase()
+bool compareArrays(int firstArray[], int secondArray[], size_t size)
 {
-    int array1[] = { 1, 3, 5, 7, 9 };
-    int searchArray1[] = { 0, 2, 4, 6, 8 };
-    for (int i = 0; i < 5; ++i)
+    for (size_t i = 0; i < size; ++i)
     {
-        if (binarySearch(array1, 0, 5, searchArray1[i]))
+        if (firstArray[i] != secondArray[i])
         {
             return false;
         }
     }
-
-    int array2[] = { -2, -4, -6, -8, -10 };
-    int searchArray2[] = { 0, 2, 4, 6, 8 };
-    for (int i = 0; i < 5; ++i)
-    {
-        if (binarySearch(array2, 0, 5, searchArray2[i]))
-        {
-            return false;
-        }
-    }
-
-    int array3[] = { 1, 2, 3, 4, 5};
-    int searchArray3[] = { 0, 2, 4, 6, 8 };
-    for (int i = 0; i < 5; ++i)
-    {
-        if (!binarySearch(array3, 0, 5, searchArray3[1]) || !binarySearch(array3, 0, 5, searchArray3[2]))
-        {
-            return false;
-        }
-    }
-
     return true;
 }
 
-void main()
+bool isSorted(int array[], size_t size)
 {
-    if (!testCorrectCase())
+    for (size_t i = 1; i < size; ++i)
     {
-        printf("Test failed\n");
-        return;
-    }
-
-    printf("Input number of elements in array\n");
-    int mainSize = -1;
-    scanf_s("%d", &mainSize);
-
-    if (mainSize < 1)
-    {
-        printf("An array must have at least one element\n");
-        return;
-    }
-
-    printf("Input number of random elements\n");
-    int secondarySize = -1;
-    scanf_s("%d", &secondarySize);
-
-    if (secondarySize < 1)
-    {
-        printf("An array must have at least one element\n");
-        return;
-    }
-
-    int* array = calloc(mainSize, sizeof(int));
-    srand((unsigned int)time(NULL));
-
-    for (int i = 0; i < mainSize; ++i)
-    {
-        array[i] = rand() % 100;
-    }
-
-    int* searchArray = calloc(secondarySize, sizeof(int));
-
-    for (int i = 0; i < mainSize; ++i)
-    {
-        searchArray[i] = rand() % 100;
-    }
-
-    // sort the secondary array
-    int quickSortStart = smallNumberPartition(searchArray, secondarySize);
-    insertionSort(searchArray, quickSortStart + 1);
-    quickSort(searchArray, quickSortStart, secondarySize - 1);
-
-    // finding an element in the main array
-    for (int i = 0; i < secondarySize; ++i)
-    {
-        if (binarySearch(array, 0, mainSize, searchArray[i]))
+        if (array[i - 1] > array[i])
         {
-            printf("%d is in the main array\n", searchArray[i]);
-        }
-        else
-        {
-            printf("%d is not in the main array\n", searchArray[i]);
+            return false;
         }
     }
+    return true;
+}
 
-    return;
+int main()
+{
+
+
+    printf("Enter array size: ");
+    size_t n = 0;
+    scanf_s("%zd", &n);
+    if (n <= 0)
+    {
+        printf("Invalid array size\n");
+        return 1;
+    }
+
+    printf("Enter number of elements: ");
+    size_t k = 0;
+    scanf_s("%zd", &k);
+    if (n <= 0)
+    {
+        printf("Invalid number\n");
+        return 1;
+    }
+
+
 }

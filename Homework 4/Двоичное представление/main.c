@@ -2,9 +2,16 @@
 #include <locale.h>
 
 #include "binary.h"
+#include "test.h"
 
 int main()
 {
+    if (!testing())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
+
     setlocale(LC_ALL, "Rus");
 
     printf("Введите первое число\n");
@@ -24,12 +31,12 @@ int main()
     printf("Двоичное представление второго числа: ");
     printBinary(secondBinary);
 
-
-
-
-    bool sum[MAX_INT_BIT_SIZE] = { false };
+    bool sum[MAX_INT_BIT_SIZE] = { true };
     binarySum(firstBinary, secondBinary, sum);
-    printBinary(binarySum);
+    printf("Двоичное представление суммы чисел: ");
+    printBinary(sum);
+
+    printf("Десятичное представление суммы чисел: %d", binaryToDecimal(sum));
 
     return 0;
 }

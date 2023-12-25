@@ -1,17 +1,5 @@
 #include "binary.h"
 
-size_t binaryLength(int number) // delete later ???
-{
-    size_t length = 1;
-    number = abs(number);
-    while (number > 1)
-    {
-        number = number >> 1;
-        ++length;
-    }
-    return length;
-}
-
 void decimalToBinary(int number, bool binary[])
 {
     int index = 0;
@@ -25,24 +13,37 @@ void decimalToBinary(int number, bool binary[])
 void printBinary(bool binary[])
 {
     int index = MAX_INT_BIT_SIZE - 1;
-    while (index >= 0 && !binary[index])
+    while (index > 0 && !binary[index])
     {
-        index--;
+        --index;
     }
-    for (; index >= 0; index--)
+    while (index >= 0)
     {
         printf("%d", binary[index]);
+        --index;
     }
     printf("\n");
 }
 
 void binarySum(bool first[], bool second[], bool result[])
 {
-    bool carry = false;
+    bool carryover = false;
     for (int i = 0; i < MAX_INT_BIT_SIZE; i++)
     {
-        result[i] = first[i] ^ second[i] ^ carry;
-        carry = (first[i] & second[i]) | (carry & (first[i] ^ second[i]));
+        result[i] = first[i] ^ second[i] ^ carryover;
+        carryover = (first[i] & second[i]) | (carryover & (first[i] ^ second[i]));
     }
 }
 
+int binaryToDecimal(bool array[])
+{
+    int result = 0;
+    int multiplier = 1;
+
+    for (size_t i = 0; i < MAX_INT_BIT_SIZE; ++i)
+    {
+        result += array[i] ? multiplier : 0;
+        multiplier *= 2;
+    }
+    return result;
+}

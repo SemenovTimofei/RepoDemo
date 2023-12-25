@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define MAX_SIZE 10
 
@@ -17,7 +18,6 @@ void printArray(int* array, int size)
     {
         printf("%d ", array[i]);
     }
-
     printf("\n");
 }
 
@@ -30,24 +30,24 @@ void insertionSort(int array[], size_t start, size_t end)
         while (j >= start && array[j] > key)
         {
             array[j + 1] = array[j];
-            j--;
+            --j;
         }
         array[j + 1] = key;
     }
 }
 
-size_t partition(int* array, size_t start, size_t end)
+int partition(int array[], size_t start, size_t end)
 {
-    size_t pivot = start;
+    int pivot = array[start];
     size_t i = start;
     size_t j = end;
     while (i < j)
     {
-        while (array[i] <= array[pivot] && i < j)
+        while (array[i] <= pivot && i < end)
         {
             ++i;
         }
-        while (array[j] > array[pivot])
+        while (array[j] > pivot)
         {
             --j;
         }
@@ -60,24 +60,87 @@ size_t partition(int* array, size_t start, size_t end)
     return j;
 }
 
-void quickSort(int* array, size_t start, size_t end)
+void quickSort(int array[], size_t start, size_t end)
 {
-    if (end - start < 10)
+    if (start < end)
     {
-        insertionSort(array, start, end);
-        return;
-    }
-    if (start < end) // delete later ???
-    {
+        if (end - start < 10)
+        {
+            insertionSort(array, start, end);
+            return;
+        }
         size_t pivot = partition(array, start, end);
         quickSort(array, start, pivot - 1);
         quickSort(array, pivot + 1, end);
     }
 }
 
+int* createRandomArray(size_t size)
+{
+    int* array = (int*)calloc(size, sizeof(int));
+    if (array == NULL)
+    {
+        return NULL;
+    }
+    srand(time(NULL));
+    for (size_t i = 0; i < size; ++i)
+    {
+        array[i] = rand();
+    }
+    return array;
+}
+
+bool compareArrays(int firstArray[], int secondArray[], size_t size)
+{
+    for (size_t i = 0; i < size; ++i)
+    {
+        if (firstArray[i] != secondArray[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool isSorted(int array[], size_t size)
+{
+    for (size_t i = 1; i < size; ++i)
+    {
+        if (array[i - 1] > array[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool testing()
+{
+    int array1[21] = { -10, 10, -9, 9, -8, 8, -7, 7, -6, 6, -5, 5, -4, 4, -3, 3, -2, 2, -1, 1, 0 };
+    int result1[21] = { -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    insertionSort(array1, 0, 20);
+    if (!compareArrays(array1, result1, 21))
+    {
+        return false;
+    }
+
+    int* array2 = createRandomArray(50);
+    quickSort(array2, 0, 49);
+    if (!isSorted(array2, 50))
+    {
+        return false;
+    }
+    
+    return true;
+}
+
 int main()
 {
-    int array[10] = { 1, 0, 2, 9, 3, 8, 4, 7, 5, 6 };
-    quickSort(array, 0, 9);
-    printArray(array, 10);
+    if (!testing())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
+
+    return 0;
 }

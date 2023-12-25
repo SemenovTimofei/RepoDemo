@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 void swap(int* firstValue, int* secondValue)
 {
@@ -79,7 +80,6 @@ int* createRandomArray(size_t size)
     {
         return NULL;
     }
-    srand(time(NULL));
     for (size_t i = 0; i < size; ++i)
     {
         array[i] = rand();
@@ -111,9 +111,52 @@ bool isSorted(int array[], size_t size)
     return true;
 }
 
+bool binarySearch(int array[], size_t start, size_t end, int key)
+{
+    while (start <= end)
+    {
+        size_t middle = start + (end - start) / 2;
+        if (array[middle] == key)
+        {
+            return true;
+        }
+        else if (array[middle] < key)
+        {
+            start = middle + 1;
+        }
+        else
+        {
+            end = middle - 1;
+        }
+        if (end <= 1)
+        {
+            return false;
+        }
+    }
+    return false;
+}
+
+bool testing()
+{
+    int* array = createRandomArray(50);
+    quickSort(array, 0, 49);
+    if (!isSorted(array, 50))
+    {
+        free(array);
+        return false;
+    }
+    free(array);
+    return true;
+}
+
 int main()
 {
-
+    srand(time(NULL));
+    if (!testing())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
 
     printf("Enter array size: ");
     size_t n = 0;
@@ -127,11 +170,34 @@ int main()
     printf("Enter number of elements: ");
     size_t k = 0;
     scanf_s("%zd", &k);
-    if (n <= 0)
+    if (k <= 0)
     {
-        printf("Invalid number\n");
+        printf("Invalid number of elements\n");
         return 1;
     }
 
+    int* array = createRandomArray(n);
+    quickSort(array, 0, n - 1);
+    int* searchElements = createRandomArray(k);
 
+    printf("Random array: \n");
+    printArray(array, n);
+    printf("Array of elements to search for: \n");
+    printArray(searchElements, k);
+
+    for (size_t i = 0; i < k; ++i)
+    {
+        if (binarySearch(array, 0, n - 1, searchElements[i]))
+        {
+            printf("%d is present in the array\n", searchElements[i]);
+        }
+        else
+        {
+            printf("%d is not present in the array\n", searchElements[i]);
+        }
+    }
+
+    free(array);
+    free(searchElements);
+    return 0;
 }

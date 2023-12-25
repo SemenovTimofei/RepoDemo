@@ -1,159 +1,77 @@
-#include <stdlib.h>
-#include <stdbool.h>
-
 #include "list.h"
 
-typedef struct List
+typedef struct Node
 {
+    int key;
     int value;
-    List* next;
+    Node* next;
+} Node;
 
-} List;
-
-int push(List** head, int value)
+Node* push(Node* head, int key, int value)
 {
-    List* temporary = calloc(1, sizeof(List));
+    Node* newElement = (Node*)calloc(1, sizeof(Node));
+    newElement->key = key;
+    newElement->value = value;
 
-    if (temporary == NULL)
+    if (head == NULL || key < head->key)
     {
-        return -1;
+        newElement->next = head;
+        return newElement;
     }
 
-    temporary->value = value;
-    List* node = (*head);
-    List* previous = NULL;
-    if ((*head) == NULL)
+    Node* current = head;
+    while (current->next != NULL && current->next->key < key)
     {
-        temporary->next = (*head);
-        (*head) = temporary;
-        return 0;
+        current = current->next;
     }
 
-    while (value > node->value)
-    {
-        previous = node;
-        node = node->next;
-        if (node == NULL)
-        {
-            previous->next = temporary;
-            temporary->next = NULL;
-            return 0;
-        }
-    }
-
-    if (previous == NULL)
-    {
-        temporary->next = (*head);
-        (*head) = temporary;
-        return 0;
-    }
-
-    temporary->next = node;
-    previous->next = temporary;
-
-    return 0;
-}
-
-int pop(List** head)
-{
-    if ((*head) == NULL)
-    {
-        return NULL;
-    }
-
-    List* trash = (*head);
-    (*head) = (*head)->next;
-    int temporary = trash->value;
-    free(temporary);
-
-    return trash;
-}
-
-List* getElement(List* head, size_t index)
-{
-    while (head != NULL && index > 0)
-    {
-        head = head->next;
-        --index;
-    }
-
+    newElement->next = current->next;
+    current->next = newElement;
     return head;
 }
 
-int deleteElement(List** head, size_t index)
+Node* deleteAtIndex(Node* head, int key)
 {
-    if (index == 0)
-    {
-        return pop(head);
-    }
-    List* previous = getElement(*head, index - 1);
-    List* element = previous->next;
-    if (element == NULL)
+    if (head == NULL)
     {
         return NULL;
     }
-
-    int temporary = element->value;
-    previous->next = element->next;
-
-    free(element);
-    return temporary;
-}
-
-void deleteList(List** head)
-{
-    List* previous = NULL;
-    while ((*head)->next)
+    if (head->key == key)
     {
-        previous = (*head);
-        *head = (*head)->next;
-        free(previous);
+        Node* newElement = head->next;
+        free(head);
+        return newElement;
     }
-    free(*head);
+    Node* current = head;
+    while (current->next != NULL && current->next->key != key)
+    {
+        current = current->next;
+    }
+    if (current->next != NULL)
+    {
+        Node* trash = current->next;
+        current->next = current->next->next;
+        free(trash);
+    }
+    return head;
 }
 
-void printList(const List* head)
+void printList(Node* head)
 {
-    while (head)
+    while (head != NULL)
     {
-        printf("%d ", head->value);
+        printf("%d %d -> ", head->key, head->value);
         head = head->next;
     }
-
     printf("\n");
 }
 
-bool testing()
+void freeList(Node* head)
 {
-    List* list = NULL;
-
-    push(&list, 5);
-    push(&list, 1);
-    push(&list, 100);
-    push(&list, -100);
-
-    int check1[] = { -100, 1, 5, 100 };
-    for (int i = 0; i < 4; ++i)
+    while (head != NULL)
     {
-        if ((getElement(list, i))->value != check1[i])
-        {
-            return false;
-        }
+        Node* trash = head;
+        head = head->next;
+        free(trash);
     }
-
-    deleteElement(&list, 1);
-    deleteElement(&list, 1);
-
-    int check2[] = { -100, 100 };
-
-    for (int i = 0; i < 2; ++i)
-    {
-        if ((getElement(list, i))->value != check2[i])
-        {
-            return false;
-        }
-    }
-
-    deleteList(&list);
-    return true;
 }

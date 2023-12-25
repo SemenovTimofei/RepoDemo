@@ -1,27 +1,14 @@
 #pragma once
 
-#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-// list structure
-typedef struct List List;
+typedef struct Node Node;
 
-// adds an element to the list
-int push(List** head, int value);
+Node* push(Node* head, int key, int value);
 
-// deletes the head element
-int pop(List** head);
+Node* deleteAtIndex(Node* head, int key);
 
-// returns a value of an element at a given index
-List* getElement(List* head, size_t index);
+void printList(Node* head);
 
-// deletes an element at a given index
-int deleteElement(List** head, size_t index);
-
-// deletes the whole list
-void deleteList(List** head);
-
-// prints out all list values
-void printList(const List* head);
-
-// testing list operations
-bool testing();
+void freeList(Node* head);

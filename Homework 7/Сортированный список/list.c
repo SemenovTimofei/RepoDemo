@@ -30,7 +30,7 @@ Node* push(Node* head, int key, int value)
     return head;
 }
 
-Node* deleteAtIndex(Node* head, int key)
+Node* deleteByKey(Node* head, int key)
 {
     if (head == NULL)
     {
@@ -60,7 +60,7 @@ void printList(Node* head)
 {
     while (head != NULL)
     {
-        printf("%d %d -> ", head->key, head->value);
+        printf("%d-%d -> ", head->key, head->value);
         head = head->next;
     }
     printf("\n");
@@ -74,4 +74,14 @@ void freeList(Node* head)
         head = head->next;
         free(trash);
     }
+}
+
+bool isEmpty(Node* head)
+{
+    return head == NULL;
+}
+
+int getHeadValue(Node* head)
+{
+    return head->value;
 }

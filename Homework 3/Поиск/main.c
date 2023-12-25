@@ -80,6 +80,7 @@ int* createRandomArray(size_t size)
     {
         return NULL;
     }
+    srand(time(NULL));
     for (size_t i = 0; i < size; ++i)
     {
         array[i] = rand();
@@ -111,11 +112,11 @@ bool isSorted(int array[], size_t size)
     return true;
 }
 
-bool binarySearch(int array[], size_t start, size_t end, int key)
+bool binarySearch(int array[], int start, int end, int key)
 {
     while (start <= end)
     {
-        size_t middle = start + (end - start) / 2;
+        int middle = start + (end - start) / 2;
         if (array[middle] == key)
         {
             return true;
@@ -128,10 +129,7 @@ bool binarySearch(int array[], size_t start, size_t end, int key)
         {
             end = middle - 1;
         }
-        if (end <= 1)
-        {
-            return false;
-        }
+        
     }
     return false;
 }
@@ -146,12 +144,28 @@ bool testing()
         return false;
     }
     free(array);
+
+    int searchArray[11] = { 0, 1, 2, 3, 4, 5, -5, -4, -3, -2, -1 };
+    quickSort(searchArray, 0, 10);
+    int notPresentElements[5] = { 10, 6, -6, 20, 9 };
+    int presentElements[5] = { 0, 5, -3, 2, -4 };
+
+    for (size_t i = 0; i < 5; ++i)
+    {
+        if (binarySearch(searchArray, 0, 10, notPresentElements[i]))
+        {
+            return false;
+        }
+        if (!binarySearch(searchArray, 0, 10, presentElements[i]))
+        {
+            return false;
+        }
+    }
     return true;
 }
 
 int main()
 {
-    srand(time(NULL));
     if (!testing())
     {
         printf("Testing failed\n");
@@ -159,8 +173,8 @@ int main()
     }
 
     printf("Enter array size: ");
-    size_t n = 0;
-    scanf_s("%zd", &n);
+    int n = 0;
+    scanf_s("%d", &n);
     if (n <= 0)
     {
         printf("Invalid array size\n");
@@ -179,11 +193,6 @@ int main()
     int* array = createRandomArray(n);
     quickSort(array, 0, n - 1);
     int* searchElements = createRandomArray(k);
-
-    printf("Random array: \n");
-    printArray(array, n);
-    printf("Array of elements to search for: \n");
-    printArray(searchElements, k);
 
     for (size_t i = 0; i < k; ++i)
     {

@@ -192,7 +192,7 @@ int main()
 
     int* array = createRandomArray(n);
     quickSort(array, 0, n - 1);
-    int* searchElements = createRandomArray(k);
+    int* searchElements = createRandomArray(k); // i can't create an array that differs from the previous one
 
     for (size_t i = 0; i < k; ++i)
     {

@@ -97,7 +97,26 @@ int createTree(Tree** tree, char fileName[])
     return 0;
 }
 
-void printTree()
+void printNodes(Node* node)
 {
+    if (node == NULL)
+    {
+        return;
+    }
+    if (node->left != NULL && node->right != NULL)
+    {
+        printf("check");
+        printf("%d", node->value);
+        return;
+    }
+    printf("( ");
+    printTree(node->left);
+    printf("%c ", node->value);
+    printTree(node->right);
+    printf(") ");
+}
 
+void printTree(Tree* tree)
+{
+    printNodes(tree->root);
 }

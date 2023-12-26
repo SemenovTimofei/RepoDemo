@@ -1,16 +1,9 @@
 #include "tree.h"
-#include "test.h"
 
 int main()
 {
-    FILE* file = NULL;
-    fopen_s(&file, "text.txt", "r");
-    if (file == NULL)
-    {
-        printf("Error opening file\n");
-        return 1;
-    }
-
     Tree* tree = NULL;
-    tree = createTree(&tree, file);
+    createTree(&tree, "text.txt");
+    
+    printTree(tree);
 }

@@ -19,3 +19,7 @@ void freeNodes(Node* node);
 Node* addNodes(FILE* file);
 
 int createTree(Tree** tree, char fileName[]);
+
+void printNodes(Node* node);
+
+void printTree(Tree* tree);

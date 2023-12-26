@@ -3,15 +3,14 @@
 
 int main()
 {
-	FILE* file = NULL;
-	fopen_s(&file, "text.txt", "r");
-	if (file == NULL)
-	{
-		printf("Error opening file\n");
-		return 1;
-	}
+    FILE* file = NULL;
+    fopen_s(&file, "text.txt", "r");
+    if (file == NULL)
+    {
+        printf("Error opening file\n");
+        return 1;
+    }
 
-	ParseTree* tree = createParseTree("text.txt");
-	
-	printTree(tree);
+    Tree* tree = NULL;
+    tree = createTree(&tree, file);
 }

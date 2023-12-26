@@ -4,15 +4,18 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <string.h>
 
 typedef struct Node Node;
 
-typedef struct ParseTree ParseTree;
+typedef struct Tree Tree;
+
+Node* createNode(int value);
 
 bool isOperation(char character);
 
-Node* buildTree(FILE* file);
+void freeNodes(Node* node);
 
-ParseTree* createParseTree(char fileName[]);
+Node* addNodes(FILE* file);
 
-void printExpression(Node* root);
+int createTree(Tree** tree, char fileName[]);

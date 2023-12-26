@@ -2,103 +2,102 @@
 
 typedef struct Node
 {
+    int value;
     Node* left;
     Node* right;
-    int number;
-    char operation;
 } Node;
 
-typedef struct ParseTree
+typedef struct Tree
 {
     Node* root;
-} ParseTree;
+} Tree;
 
-/*
-Node* createNode(int number, char operation)
+Node* createNode(int value)
 {
     Node* newNode = (Node*)calloc(1, sizeof(Node));
     if (newNode == NULL)
     {
         return NULL;
     }
-    newNode->number = number;
-    newNode->operation = operation;
+    newNode->value = value;
     newNode->left = NULL;
     newNode->right = NULL;
     return newNode;
 }
 
-
-ParseTree* initializeParseTree()
-{
-    return (ParseTree*)calloc(1, sizeof(ParseTree));
-}
-*/
-
 bool isOperation(char character)
 {
-    return character == '+' || character == '-' || character == '/' || character == '*';
+    return character == '-' || character == '+' || character == '/' || character == '*';
 }
 
-Node* buildTree(FILE* file)
+void freeNodes(Node* node)
 {
-    char current = fgetc(file);
-    while (current != EOF && !isdigit(current) && !isOperation(current))
+    if (node == NULL)
     {
-        current = fgetc(file);
+        return;
     }
+    freeNodes(node->left);
+    freeNodes(node->right);
+    free(node);
+}
 
-    Node* newNode = (Node*)calloc(1, sizeof(Node));
-    if (newNode == NULL)
+Node* addNodes(FILE* file)
+{
+    Node* newNode = NULL;
+    char current = fgetc(file);
+    while (current != EOF && current != ')')
     {
-        return NULL;
-    }
-    if (isdigit(current))
-    {
-        printf("number %c\n", current);
-        newNode->number = current;
-    }
-    else if (isOperation(current))
-    {
-        printf("operation %c\n", current);
-        newNode->operation = current;
-        newNode->left = buildTree(file);
-        newNode->right = buildTree(file);
+        if (isOperation(current))
+        {
+            newNode = createNode(current);
+            if (newNode == NULL)
+            {
+                return NULL;
+            }
+            newNode->left = addNodes(file);
+            newNode->right = addNodes(file);
+            if (newNode->left == NULL || newNode->right == NULL)
+            {
+                freeNodes(newNode);
+                return NULL;
+            }
+        }
+        else if (isdigit(current))
+        {
+            newNode = createNode(current);
+            if (newNode == NULL)
+            {
+                return NULL;
+            }
+            break;
+        }
+        current = fgetc(file);
     }
     return newNode;
 }
 
-ParseTree* createParseTree(char fileName[])
+int createTree(Tree** tree, char fileName[])
 {
     FILE* file = NULL;
     fopen_s(&file, fileName, "r");
     if (file == NULL)
     {
-        return NULL;
+        return 1;
     }
-    ParseTree* tree = (ParseTree*)calloc(1, sizeof(ParseTree));
-    if (tree == NULL)
+
+    *tree = (Tree*)calloc(1, sizeof(Tree));
+    if (*tree == NULL)
     {
         fclose(file);
-        return NULL;
+        return 1;
     }
-    tree->root = buildTree(file);
-    return tree;
+
+    (*tree)->root = addNodes(file);
+    fclose(file);
+    return 0;
 }
 
-void printTree(ParseTree* tree)
+void printTree()
 {
-    Node* node = tree->root;
-    if (node == NULL)
-    {
-        return;
-    }
-    if (node->left == NULL && node->right == NULL)
-    {
-        printf("%d ", node->number);
-        return;
-    }
-    printf("%c ", node->operation);
-    printTree(node->left);
-    printTree(node->right);
+
 }

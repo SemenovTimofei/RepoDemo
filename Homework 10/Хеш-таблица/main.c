@@ -1,18 +1,40 @@
 #include "hash.h"
 
+#define MAX_LENGTH 100
+
 int main()
 {
+
+
+    FILE* file = NULL;
+    fopen_s(&file, "text.txt", "r");
+    if (file == NULL)
+    {
+        printf("Error opening file\n");
+        return 1;
+    }
+
     HashTable* table = initializeTable();
     if (table == NULL)
     {
         return 1;
     }
-    addToTable(table, "ababa");
-    addToTable(table, "ababa");
-    addToTable(table, "check");
-    addToTable(table, "ababa");
+
+    char word[MAX_LENGTH] = { 0 };
+    while (fscanf_s(file, "%s", word, MAX_LENGTH) == 1)
+    {
+        if (addToTable(table, word) != 0)
+        {
+            printf("Error writing to hash table\n");
+            return 1;
+        }
+    }
     printTable(table);
 
+    printf("Load factor: %f\n", loadFactor(table));
+    printf("Max list length: %zd\n", maxListLength(table));
+    printf("Average list length: %f\n", averageListLength(table));
+
     freeTable(&table);
-    return 0; // load factor, collision etc
+    return 0; // collision etc
 }

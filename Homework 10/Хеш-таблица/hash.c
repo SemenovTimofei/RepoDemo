@@ -85,3 +85,56 @@ void freeTable(HashTable** table)
     free((*table)->items);
     free(*table);
 }
+
+float loadFactor(HashTable* table)
+{
+    if (table == NULL)
+    {
+        return 0;
+    }
+
+    size_t totalAmount = 0;
+    for (size_t i = 0; i < HASH_TABLE_SIZE; ++i)
+    {
+        if (table->items[i] != NULL)
+        {
+            ++totalAmount;
+        }
+    }
+    printf("check %d", totalAmount);
+    return (float)totalAmount / (float)HASH_TABLE_SIZE;
+}
+
+size_t maxListLength(HashTable* table)
+{
+    if (table == NULL)
+    {
+        return 0;
+    }
+    size_t maxLength = 0;
+    for (size_t i = 0; i < HASH_TABLE_SIZE; ++i)
+    {
+        if (table->items[i] != NULL)
+        {
+            maxLength = max(maxLength, getLength(table->items[i]));
+        }
+    }
+    return maxLength;
+}
+
+float averageListLength(HashTable* table)
+{
+    if (table == NULL)
+    {
+        return 0;
+    }
+    size_t totalListLength = 0;
+    for (size_t i = 0; i < HASH_TABLE_SIZE; ++i)
+    {
+        if (table->items[i] != NULL)
+        {
+            totalListLength = totalListLength + getLength(table->items[i]);
+        }
+    }
+    return (float)totalListLength / (float)HASH_TABLE_SIZE;
+}

@@ -76,3 +76,7 @@ ListElement* findElement(List* list, char word[])
     return head;
 }
 
+size_t getLength(List* list)
+{
+    return list != NULL ? list->length : 0;
+}

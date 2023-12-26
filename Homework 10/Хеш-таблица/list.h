@@ -18,3 +18,5 @@ int push(List* list, char* word);
 int freeList(List* list);
 
 int printList(List* list);
+
+size_t getLength(List* list);

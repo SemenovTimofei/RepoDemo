@@ -1,153 +1,87 @@
 #include "list.h"
 
-typedef struct ListElement
+typedef struct Node
 {
+    int key;
     char* value;
-    int frequency;
-    ListElement* next;
-} ListElement;
+    Node* next;
+} Node;
 
-typedef struct List
+Node* push(Node* head, int key, char value[])
 {
-    ListElement* head;
-    size_t length;
-} List;
+    Node* newElement = (Node*)calloc(1, sizeof(Node));
+    newElement->key = key;
+    strcpy_s(newElement->value, sizeof(value), value);
 
-List* createList()
-{
-    return (List*)calloc(1, sizeof(List));
-}
-
-ErrorCode push(List* list, char* value, int frequency)
-{
-    ListElement* newElement = (ListElement*)calloc(1, sizeof(ListElement));
-
-    if (newElement == NULL)
+    if (head == NULL || key < head->key)
     {
-        return MemoryAllocationError;
+        newElement->next = head;
+        return newElement;
     }
 
-    newElement->frequency = frequency;
-    newElement->value = _strdup(value);
-
-    newElement->next = list->head;
-    list->head = newElement;
-    ++list->length;
-
-    return OK;
-}
-
-ErrorCode pop(List* list)
-{
-    if (list->head == NULL)
+    Node* current = head;
+    while (current->next != NULL && current->next->key < key)
     {
-        return NULLPointerError;
+        current = current->next;
     }
 
-    ListElement* trash = list->head;
-    list->head = list->head->next;
-    --list->length;
-
-    free(trash->value);
-    free(trash);
-
-    return OK;
+    newElement->next = current->next;
+    current->next = newElement;
+    return head;
 }
 
-size_t getFrequency(const ListElement* const element)
+Node* deleteByKey(Node* head, int key)
 {
-    return element->frequency;
-}
-
-size_t listLength(const List* const list)
-{
-    return list == NULL ? 0 : list->length;
-}
-
-ErrorCode changeElement(ListElement* const element, const size_t const frequency)
-{
-    if (element == NULL)
-    {
-        return NULLPointerError;
-    }
-    element->frequency = frequency;
-}
-
-ErrorCode freeList(List* list)
-{
-    if (list == NULL)
-    {
-        return NULLPointerError;
-    }
-    while (list->head != NULL)
-    {
-        ListElement* trash = list->head;
-        list->head = list->head->next;
-
-        free(trash);
-    }
-
-    free(list);
-
-    return OK;
-}
-
-ErrorCode printList(List* list)
-{
-    if (list == NULL)
-    {
-        return NULLPointerError;
-    }
-
-    ListElement* head = list->head;
-    while (head != NULL)
-    {
-        printf("%s %d\n", head->value, head->frequency);
-        head = head->next;
-    }
-    return OK;
-}
-
-ErrorCode printHead(List* list)
-{
-    if (list == NULL)
-    {
-        return NULLPointerError;
-    }
-    printf("%s %d\n", list->head->value, list->head->frequency);
-    return OK;
-}
-
-ListElement* findElement(const List* const list, const char* const value)
-{
-    if (list == NULL)
+    if (head == NULL)
     {
         return NULL;
     }
-    ListElement* current = list->head;
-    while (current != NULL && strcmp(current->value, value) != 0)
+    if (head->key == key)
+    {
+        Node* newElement = head->next;
+        free(head);
+        return newElement;
+    }
+    Node* current = head;
+    while (current->next != NULL && current->next->key != key)
     {
         current = current->next;
     }
-    return current;
+    if (current->next != NULL)
+    {
+        Node* trash = current->next;
+        current->next = current->next->next;
+        free(trash);
+    }
+    return head;
 }
 
-bool isPresent(const List* const list, const char* const value)
+void printList(Node* head)
 {
-    if (list == NULL)
+    while (head != NULL)
     {
-        return false;
+        printf("%d-%s -> ", head->key, head->value);
+        head = head->next;
     }
+    printf("\n");
+}
 
-    ListElement* current = list->head;
-
-    while (current != NULL)
+void freeList(Node* head)
+{
+    while (head != NULL)
     {
-        if (strcmp(current->value, value) == 0)
-        {
-            return true;
-        }
-        current = current->next;
+        Node* trash = head;
+        head = head->next;
+        free(trash);
     }
-    return false;
+}
+
+bool isEmpty(Node* head)
+{
+    return head == NULL;
+}
+
+char getHeadValue(Node* head)
+{
+    return head->value;
 }

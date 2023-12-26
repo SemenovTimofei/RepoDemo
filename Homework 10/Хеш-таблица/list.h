@@ -2,40 +2,19 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdbool.h>
+#include <string.h>
 
-#define MAX_LENGTH 50
+typedef struct Node Node;
 
-typedef enum ErrorCode
-{
-    OK = 0,
-    MemoryAllocationError = 1,
-    NULLPointerError = 2,
-} ErrorCode;
+Node* push(Node* head, int key, int value);
 
-typedef struct ListElement ListElement;
+Node* deleteByKey(Node* head, int key);
 
-typedef struct List List;
+void printList(Node* head);
 
-List* createList();
+void freeList(Node* head);
 
-ErrorCode push(List* list, char* value, int frequency);
+bool isEmpty(Node* head);
 
-ErrorCode pop(List* list);
-
-size_t getFrequency(const ListElement* const element);
-
-size_t listLength(const List* const list);
-
-ErrorCode changeElement(ListElement* const element, const size_t const frequency);
-
-ErrorCode freeList(List* list);
-
-ErrorCode printList(List* list);
-
-ErrorCode printHead(List* list);
-
-ListElement* findElement(const List* const list, const char* const value);
-
-bool isPresent(const List* const list, const char* const value);
+char getHeadValue(Node* head);

@@ -1,10 +1,13 @@
 #include "hash.h"
-
-#define MAX_LENGTH 100
+#include "test.h"
 
 int main()
 {
-
+    if (!testing())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
 
     FILE* file = NULL;
     fopen_s(&file, "text.txt", "r");
@@ -20,8 +23,8 @@ int main()
         return 1;
     }
 
-    char word[MAX_LENGTH] = { 0 };
-    while (fscanf_s(file, "%s", word, MAX_LENGTH) == 1)
+    char word[EXPRESSION_SIZE] = { 0 };
+    while (fscanf_s(file, "%s", word, EXPRESSION_SIZE) == 1)
     {
         if (addToTable(table, word) != 0)
         {
@@ -36,5 +39,5 @@ int main()
     printf("Average list length: %f\n", averageListLength(table));
 
     freeTable(&table);
-    return 0; // collision etc
+    return 0;
 }

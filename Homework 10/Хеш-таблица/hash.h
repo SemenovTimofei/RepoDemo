@@ -2,8 +2,8 @@
 
 #include "list.h"
 
-#define HASH_TABLE_SIZE 10000
-
+#define HASH_TABLE_SIZE 100
+#define EXPRESSION_SIZE 100
 #define MODULUS 17
 
 typedef struct HashTable HashTable;

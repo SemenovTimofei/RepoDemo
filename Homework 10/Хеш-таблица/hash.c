@@ -49,7 +49,7 @@ int addToTable(HashTable* table, char word[])
         return 1;
     }
     size_t currentHash = hash(word);
-
+    
     if (table->items[currentHash] == NULL)
     {
         table->items[currentHash] = initializeList();
@@ -58,6 +58,7 @@ int addToTable(HashTable* table, char word[])
             return 1;
         }
     }
+
     push(table->items[currentHash], word);
     return 0;
 }
@@ -66,7 +67,7 @@ void printTable(HashTable* table)
 {
     for (size_t i = 0; i < HASH_TABLE_SIZE; ++i)
     {
-        if (table->items[i] != NULL)
+        if (getLength(table->items[i]) > 0)
         {
             printList(table->items[i]);
         }
@@ -96,12 +97,11 @@ float loadFactor(HashTable* table)
     size_t totalAmount = 0;
     for (size_t i = 0; i < HASH_TABLE_SIZE; ++i)
     {
-        if (table->items[i] != NULL)
+        if (getLength(table->items[i]) > 0)
         {
             ++totalAmount;
         }
     }
-    printf("check %d", totalAmount);
     return (float)totalAmount / (float)HASH_TABLE_SIZE;
 }
 
@@ -129,12 +129,14 @@ float averageListLength(HashTable* table)
         return 0;
     }
     size_t totalListLength = 0;
+    size_t listCount = 0;
     for (size_t i = 0; i < HASH_TABLE_SIZE; ++i)
     {
-        if (table->items[i] != NULL)
+        if (getLength(table->items[i]) > 0)
         {
             totalListLength = totalListLength + getLength(table->items[i]);
+            ++listCount;
         }
     }
-    return (float)totalListLength / (float)HASH_TABLE_SIZE;
+    return (float)totalListLength / (float)listCount;
 }

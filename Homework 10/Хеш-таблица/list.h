@@ -5,16 +5,22 @@
 #include <stdbool.h>
 #include <string.h>
 
-typedef struct Node Node;
+#include "list.h"
 
-Node* push(Node* head, int key, int value);
+typedef struct ListElement ListElement;
 
-Node* deleteByKey(Node* head, int key);
+typedef struct List List;
 
-void printList(Node* head);
+List* initializeList();
 
-void freeList(Node* head);
+ListElement* initializeListElement();
 
-bool isEmpty(Node* head);
+int push(List* list, char* word, size_t frequency);
 
-char getHeadValue(Node* head);
+int pop(List* list);
+
+int freeList(List* list);
+
+int changeFrequency(ListElement* element, size_t frequency);
+
+int printList(List* list);

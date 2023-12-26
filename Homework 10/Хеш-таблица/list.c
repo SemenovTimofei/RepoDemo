@@ -1,87 +1,94 @@
 #include "list.h"
 
-typedef struct Node
+typedef struct ListElement
 {
-    int key;
-    char* value;
-    Node* next;
-} Node;
+    char* word;
+    size_t frequency;
+    ListElement* next;
+} ListElement;
 
-Node* push(Node* head, int key, char value[])
+typedef struct List
 {
-    Node* newElement = (Node*)calloc(1, sizeof(Node));
-    newElement->key = key;
-    strcpy_s(newElement->value, sizeof(value), value);
+    ListElement* head;
+    size_t length;
+} List;
 
-    if (head == NULL || key < head->key)
-    {
-        newElement->next = head;
-        return newElement;
-    }
-
-    Node* current = head;
-    while (current->next != NULL && current->next->key < key)
-    {
-        current = current->next;
-    }
-
-    newElement->next = current->next;
-    current->next = newElement;
-    return head;
+List* initializeList()
+{
+    return (List*)calloc(1, sizeof(List));
 }
 
-Node* deleteByKey(Node* head, int key)
+ListElement* initializeListElement()
 {
-    if (head == NULL)
+    return (ListElement*)calloc(1, sizeof(ListElement));
+}
+
+int push(List* list, char* word, size_t frequency)
+{
+    ListElement* newElement = (ListElement*)calloc(1, sizeof(ListElement));
+    if (newElement == NULL)
+    {
+        return 1;
+    }
+    newElement->word = _strdup(word);
+    newElement->next = list->head;
+    list->head = newElement;
+    ++list->length;
+    return 0;
+}
+
+int freeList(List* list)
+{
+    if (list == NULL)
+    {
+        return 1;
+    }
+    while (list->head != NULL)
+    {
+        ListElement* trash = list->head;
+        list->head = list->head->next;
+        free(trash->word);
+        free(trash);
+    }
+    free(list);
+    return 0;
+}
+
+int changeFrequency(ListElement* element, size_t frequency)
+{
+    if (element == NULL)
+    {
+        return 1;
+    }
+    element->frequency = frequency;
+    return 0;
+}
+
+int printList(List* list)
+{
+    if (list == NULL)
+    {
+        return 1;
+    }
+    ListElement* head = list->head;
+    while (head != NULL)
+    {
+        printf("%s %d\n", head->word, head->frequency);
+        head = head->next;
+    }
+    return 0;
+}
+
+ListElement* findElement(List* list, char word[])
+{
+    if (list == NULL)
     {
         return NULL;
     }
-    if (head->key == key)
+    ListElement* head = list->head;
+    while (head != NULL && strcmp(head->word, word) != 0)
     {
-        Node* newElement = head->next;
-        free(head);
-        return newElement;
-    }
-    Node* current = head;
-    while (current->next != NULL && current->next->key != key)
-    {
-        current = current->next;
-    }
-    if (current->next != NULL)
-    {
-        Node* trash = current->next;
-        current->next = current->next->next;
-        free(trash);
+        head = head->next;
     }
     return head;
-}
-
-void printList(Node* head)
-{
-    while (head != NULL)
-    {
-        printf("%d-%s -> ", head->key, head->value);
-        head = head->next;
-    }
-    printf("\n");
-}
-
-void freeList(Node* head)
-{
-    while (head != NULL)
-    {
-        Node* trash = head;
-        head = head->next;
-        free(trash);
-    }
-}
-
-bool isEmpty(Node* head)
-{
-    return head == NULL;
-}
-
-char getHeadValue(Node* head)
-{
-    return head->value;
 }

@@ -3,7 +3,6 @@
 typedef struct ListElement
 {
     char* word;
-    size_t frequency;
     ListElement* next;
 } ListElement;
 
@@ -18,12 +17,7 @@ List* initializeList()
     return (List*)calloc(1, sizeof(List));
 }
 
-ListElement* initializeListElement()
-{
-    return (ListElement*)calloc(1, sizeof(ListElement));
-}
-
-int push(List* list, char* word, size_t frequency)
+int push(List* list, char* word)
 {
     ListElement* newElement = (ListElement*)calloc(1, sizeof(ListElement));
     if (newElement == NULL)
@@ -54,16 +48,6 @@ int freeList(List* list)
     return 0;
 }
 
-int changeFrequency(ListElement* element, size_t frequency)
-{
-    if (element == NULL)
-    {
-        return 1;
-    }
-    element->frequency = frequency;
-    return 0;
-}
-
 int printList(List* list)
 {
     if (list == NULL)
@@ -71,10 +55,9 @@ int printList(List* list)
         return 1;
     }
     ListElement* head = list->head;
-    while (head != NULL)
+    if (head != NULL)
     {
-        printf("%s %d\n", head->word, head->frequency);
-        head = head->next;
+        printf("%s %zd\n", head->word, list->length);
     }
     return 0;
 }
@@ -92,3 +75,4 @@ ListElement* findElement(List* list, char word[])
     }
     return head;
 }
+

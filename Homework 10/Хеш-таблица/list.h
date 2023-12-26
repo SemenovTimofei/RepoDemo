@@ -13,14 +13,8 @@ typedef struct List List;
 
 List* initializeList();
 
-ListElement* initializeListElement();
-
-int push(List* list, char* word, size_t frequency);
-
-int pop(List* list);
+int push(List* list, char* word);
 
 int freeList(List* list);
-
-int changeFrequency(ListElement* element, size_t frequency);
 
 int printList(List* list);

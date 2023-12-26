@@ -6,8 +6,6 @@
 
 #define MODULUS 17
 
-#include "hash.h"
-
 typedef struct HashTable HashTable;
 
 size_t hash(char word[]);
@@ -15,3 +13,5 @@ size_t hash(char word[]);
 HashTable* initializeTable();
 
 int addToTable(HashTable* table, char word[]);
+
+void printTable(HashTable* table);

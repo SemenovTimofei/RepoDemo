@@ -58,7 +58,7 @@ int addToTable(HashTable* table, char word[])
             return 1;
         }
     }
-    push(table->items[currentHash], word, 1); // remove frequency ???
+    push(table->items[currentHash], word);
     return 0;
 }
 
@@ -71,4 +71,17 @@ void printTable(HashTable* table)
             printList(table->items[i]);
         }
     }
+}
+
+void freeTable(HashTable** table)
+{
+    for (size_t i = 0; i < (*table)->numberOfElements; ++i)
+    {
+        if ((*table)->items[i] != NULL)
+        {
+            freeList(&((*table)->items[i]));
+        }
+    }
+    free((*table)->items);
+    free(*table);
 }

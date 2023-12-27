@@ -68,6 +68,7 @@ int calculatePostfix(char* text)
         firstValue = pop(&head);
         result = firstValue * secondValue;
         push(&head, result);
+        // add errors
     }
 
     result = top(head);

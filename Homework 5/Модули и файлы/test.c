@@ -7,7 +7,7 @@ int* createRandomArray(size_t size)
     {
         return NULL;
     }
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
     for (size_t i = 0; i < size; ++i)
     {
         array[i] = rand();
@@ -61,7 +61,7 @@ bool testing()
     free(array2);
 
     // testing most common element module
-    int array3[] = { 1, 1, 1, 1, 1, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 0, 0, 0, 9, 3321, 312, 3, 32, 323, 333, 33333333333, 3333333 };
+    int array3[] = { 1, 1, 1, 1, 1, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 0, 0, 0, 9, 3321, 312, 3, 32, 323, 333, 33333333, 3333333 };
     size_t length = sizeof(array3) / sizeof(array3[0]);
     quickSort(array3, 0, length - 1);
     if (findMostCommonElement(array3, length) != 1)

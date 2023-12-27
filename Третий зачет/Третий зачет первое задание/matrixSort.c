@@ -12,9 +12,9 @@ void swapColumns(int martix[][MAX_SIZE], size_t firstColumn, size_t secondColumn
 
 void sortMatrix(int martix[][MAX_SIZE], size_t columnLength, size_t rowLength)
 {
-    for (int i = 0; i < columnLength - 1; ++i)
+    for (size_t i = 0; i < columnLength - 1; ++i)
     {
-        for (int j = 0; j < columnLength - i - 1; ++j)
+        for (size_t j = 0; j < columnLength - i - 1; ++j)
         {
             if (martix[0][j] > martix[0][j + 1])
             {
@@ -34,4 +34,5 @@ void printMatrix(int martix[][MAX_SIZE], size_t columnLength, size_t rowLength)
         }
         printf("\n");
     }
+    printf("\n");
 }

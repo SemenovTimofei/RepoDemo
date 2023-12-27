@@ -8,7 +8,6 @@ bool compareMatrices(int firstMatrix[][MAX_SIZE], int secondMatrix[][MAX_SIZE], 
         {
             if (firstMatrix[i][j] != secondMatrix[i][j])
             {
-                printf("%d %d\n", firstMatrix[i][j], secondMatrix[i][j]);
                 return false;
             }
         }

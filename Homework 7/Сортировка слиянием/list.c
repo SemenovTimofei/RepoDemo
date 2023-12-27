@@ -17,24 +17,30 @@ typedef struct Node
 
 ListErrorCode push(Node** list, const char* name, const char* phone)
 {
-    Node* temporary = malloc(sizeof(Node));
+    Node* temporary = (Node*)calloc(1, sizeof(Node));
     if (temporary == NULL)
     {
+        free(temporary);
         return listOutOfMemory;
     }
 
     size_t nameLength = strlen(name) + 1;
-    temporary->name = malloc(nameLength);
+    temporary->name = calloc(nameLength, sizeof(char));
     if (temporary->name == NULL)
     {
+        free(temporary->name);
+        free(temporary);
         return listOutOfMemory;
     }
     strcpy_s(temporary->name, nameLength, name);
 
     size_t phoneNumberLength = strlen(phone) + 1;
-    temporary->phone = malloc(phoneNumberLength);
+    temporary->phone = calloc(phoneNumberLength, sizeof(char));
     if (temporary->phone == NULL)
     {
+        free(temporary->phone);
+        free(temporary->name);
+        free(temporary);
         return listOutOfMemory;
     }
     strcpy_s(temporary->phone, phoneNumberLength, phone);
@@ -58,22 +64,45 @@ ListErrorCode push(Node** list, const char* name, const char* phone)
     return noErrors;
 }
 
-ListErrorCode loadData(Node** list, const char* filename)
+ListErrorCode freeList(Node** list)
+{
+    if (*list == NULL)
+    {
+        return listIsEmpty;
+    }
+
+    while ((*list) != NULL)
+    {
+        Node* trash = *list;
+        *list = (*list)->next;
+        free(trash->name);
+        free(trash->phone);
+        free(trash);
+    }
+
+    return noErrors;
+}
+
+ListErrorCode loadData(Node** list, const char* fileName)
 {
     FILE* file = NULL;
 
-    fopen_s(&file, filename, "r");
+    fopen_s(&file, fileName, "r");
     if (file == NULL)
     {
         freeList(*list);
         return errorOpenningFile;
     }
 
-    char name[MAX_NAME_LENGTH];
-    char phone[MAX_PHONE_LENGTH];
+    char name[MAX_NAME_LENGTH] = { '\0' };
+    char phone[MAX_PHONE_LENGTH] = { '\0' };
     while (fscanf_s(file, "%s - %s", name, MAX_NAME_LENGTH, phone, MAX_PHONE_LENGTH) == 2)
     {
-        push(list, name, phone);
+        if (push(list, name, phone) != noErrors)
+        {
+            fclose(file);
+            return listOutOfMemory;
+        }
     }
 
     fclose(file);
@@ -100,25 +129,6 @@ void printList(Node* list)
     }
 }
 
-ListErrorCode freeList(Node** list)
-{
-    if (*list == NULL)
-    {
-        return listIsEmpty;
-    }
-
-    while ((*list) != NULL)
-    {
-        Node* trash = *list;
-        *list = (*list)->next;
-        free(trash->name);
-        free(trash->phone);
-        free(trash);
-    }
-
-    return noErrors;
-}
-
 ListErrorCode changeNextNode(Node** node, Node* changeValue)
 {
     (*node)->next = changeValue;
@@ -126,10 +136,5 @@ ListErrorCode changeNextNode(Node** node, Node* changeValue)
 
 char* currentValue(Node* node, int valueType)
 {
-    if (valueType == 1)
-    {
-        return node->name;
-    }
-
-    return node->phone;
+    return valueType == 1 ? node->name : node->phone;
 }

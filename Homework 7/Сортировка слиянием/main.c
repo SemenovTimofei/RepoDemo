@@ -12,7 +12,7 @@ int main(void)
     {
         case testErrorOpenningFile:
         {
-            printf("Error openning file during testing\n");
+            printf("Error opening file during testing\n");
             return 1;
         }
         case testErrorCode1:
@@ -37,7 +37,7 @@ int main(void)
     ListErrorCode openFileError = loadData(&list, "text.txt");
     if (openFileError)
     {
-        printf("Error openning file\n");
+        printf("Error opening file\n");
         return errorOpenningFile;
     }
 

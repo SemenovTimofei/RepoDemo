@@ -2,8 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "mergeSort.h"
-#include "list.h"
 #include "testing.h"
 
 bool isSame(Node* list, Node* expectedList, int valueType)
@@ -27,7 +25,7 @@ TestErrorCode testing()
 {
     ListErrorCode openFileErrorCode = noErrors;
 
-    // test openning and sorting empty text file
+    // test opening and sorting empty text file
     Node* test1 = NULL;
 
     openFileErrorCode = loadData(&test1, "test1.txt");
@@ -39,8 +37,10 @@ TestErrorCode testing()
     mergeSort(&test1, 0);
     if (test1 != NULL)
     {
+        freeList(&test1);
         return testErrorCode1;
     }
+    freeList(&test1);
 
     // test sorting by phone number
     Node* test2 = NULL;
@@ -52,14 +52,19 @@ TestErrorCode testing()
     openFileErrorCode = loadData(&test2, "test2.txt");
     if (openFileErrorCode)
     {
+        freeList(&test2);
+        freeList(&result2);
         return testErrorOpenningFile;
     }
 
     mergeSort(&test2, 0);
     if (!isSame(test2, result2, 0))
     {
+        freeList(&test2);
+        freeList(&result2);
         return testErrorCode2;
     }
+    freeList(&test2);
     freeList(&result2);
 
     // test sorting by name
@@ -72,14 +77,20 @@ TestErrorCode testing()
     openFileErrorCode = loadData(&test3, "test3.txt");
     if (openFileErrorCode)
     {
+        freeList(&test3);
+        freeList(&result3);
         return testErrorOpenningFile;
     }
 
     mergeSort(&test3, 1);
     if (!isSame(test3, result3, 1))
     {
+        freeList(&test3);
+        freeList(&result3);
         return testErrorCode3;
     }
+
+    freeList(&test3);
     freeList(&result3);
 
     return testsPassed;

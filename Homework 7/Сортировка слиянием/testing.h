@@ -3,15 +3,14 @@
 #include <stdbool.h>
 
 #include "mergeSort.h"
-#include "list.h"
 
 typedef enum
 {
     testErrorOpenningFile = -1,
-    testErrorCode1,
-    testErrorCode2,
-    testErrorCode3,
-    testsPassed,
+    testsPassed = 0,
+    testErrorCode1 = 1,
+    testErrorCode2 = 2,
+    testErrorCode3 = 3,
 } TestErrorCode;
 
 // checks whether the list value of a certain type are the same

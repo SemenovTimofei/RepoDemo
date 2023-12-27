@@ -21,7 +21,7 @@ typedef struct Node Node;
 ListErrorCode push(Node** list, const char* name, const char* phone);
 
 // loads text from file
-ListErrorCode loadData(Node** list, const char* filename);
+ListErrorCode loadData(Node** list, const char* fileName);
 
 // returns next node
 Node* getNextNode(Node* node, ListErrorCode* errorCode);

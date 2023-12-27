@@ -10,6 +10,10 @@ typedef struct Node
 Node* push(Node* head, int key, int value)
 {
     Node* newElement = (Node*)calloc(1, sizeof(Node));
+    if (newElement == NULL)
+    {
+        return NULL;
+    }
     newElement->key = key;
     newElement->value = value;
 
@@ -66,12 +70,12 @@ void printList(Node* head)
     printf("\n");
 }
 
-void freeList(Node* head)
+void freeList(Node** head)
 {
-    while (head != NULL)
+    while (*head != NULL)
     {
-        Node* trash = head;
-        head = head->next;
+        Node* trash = *head;
+        *head = (*head)->next;
         free(trash);
     }
 }

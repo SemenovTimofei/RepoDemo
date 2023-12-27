@@ -12,7 +12,7 @@ Node* deleteByKey(Node* head, int key);
 
 void printList(Node* head);
 
-void freeList(Node* head);
+void freeList(Node** head);
 
 bool isEmpty(Node* head);
 

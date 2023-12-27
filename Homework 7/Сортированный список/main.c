@@ -24,7 +24,7 @@ int main()
         {
         case 0:
         {
-            freeList(head);
+            freeList(&head);
             return 0;
         }
         case 1:
@@ -63,7 +63,7 @@ int main()
         {
             printf("Incorrect command\n");
 
-            freeList(head);
+            freeList(&head);
             return 1;
         }
         }

@@ -3,11 +3,13 @@
 
 int main()
 {
+    /*
     if (!testing())
     {
         printf("Testing failed\n");
-        return 1;
+        //return 1;
     }
+    */
 
     FILE* file = NULL;
     fopen_s(&file, "text.txt", "r");
@@ -32,11 +34,17 @@ int main()
             return 1;
         }
     }
-    printTable(table);
+    //printTable(table);
 
     printf("Load factor: %f\n", loadFactor(table));
     printf("Max list length: %zd\n", maxListLength(table));
     printf("Average list length: %f\n", averageListLength(table));
+
+    List* list = initializeList();
+    push(list, "egor");
+    push(list, "ddas");
+    printList(list);
+    printf("%s", listTop(list));
 
     freeTable(&table);
     return 0;

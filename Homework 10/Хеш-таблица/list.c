@@ -17,8 +17,27 @@ List* initializeList()
     return (List*)calloc(1, sizeof(List));
 }
 
+char* listTop(List* list)
+{
+    if (list == NULL)
+    {
+        return NULL;
+    }
+    ListElement* head = list->head;
+    if (head == NULL)
+    {
+        return NULL;
+    }
+    return head->word;
+}
+
 int push(List* list, char* word)
 {
+    printf("%s %s bebebeb", listTop(list), word);
+    if (list != NULL && strcmp(listTop(list), word) != 0)
+    {
+        return 1;
+    }
     ListElement* newElement = (ListElement*)calloc(1, sizeof(ListElement));
     if (newElement == NULL)
     {
@@ -55,9 +74,10 @@ int printList(List* list)
         return 1;
     }
     ListElement* head = list->head;
-    if (head != NULL)
+    for (size_t i = 0; i < list->length; ++i)
     {
         printf("%s %zd\n", head->word, list->length);
+        head = head->next;
     }
     return 0;
 }

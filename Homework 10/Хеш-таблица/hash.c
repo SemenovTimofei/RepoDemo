@@ -58,7 +58,7 @@ int addToTable(HashTable* table, char word[])
             return 1;
         }
     }
-
+    
     push(table->items[currentHash], word);
     return 0;
 }
@@ -80,7 +80,7 @@ void freeTable(HashTable** table)
     {
         if ((*table)->items[i] != NULL)
         {
-            freeList(&((*table)->items[i]));
+            freeList((*table)->items[i]);
         }
     }
     free((*table)->items);

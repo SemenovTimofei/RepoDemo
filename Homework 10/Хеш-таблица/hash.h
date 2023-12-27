@@ -2,7 +2,7 @@
 
 #include "list.h"
 
-#define HASH_TABLE_SIZE 100
+#define HASH_TABLE_SIZE 10
 #define EXPRESSION_SIZE 100
 #define MODULUS 17
 

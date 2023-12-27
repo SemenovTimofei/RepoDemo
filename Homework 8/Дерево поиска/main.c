@@ -7,6 +7,15 @@
 
 #define MAX_EXPRESSION_LENGTH 100 // clean up ???
 
+void printOptions()
+{
+    printf("Enter 0 to exit\n");
+    printf("Enter 1 to add an element to the textbook\n");
+    printf("Enter 2 to get a value at an index\n");
+    printf("Enter 3 to check the presence of an element at index\n");
+    printf("Enter 4 to delete an element\n\n");
+}
+
 int main()
 {
     if (!testing())
@@ -18,7 +27,7 @@ int main()
     Node* tree = NULL;
 
     printOptions();
-    
+
     int option = -1;
 
     while (option != 0)
@@ -42,12 +51,14 @@ int main()
             printf("Enter the expression: ");
             char text[MAX_EXPRESSION_LENGTH] = { 0 };
             scanf_s("%s", &text, MAX_EXPRESSION_LENGTH);
+            /*
             size_t length = strlen(text) + 1;
 
             char* value = (char*)calloc(length, sizeof(char));
             strcpy_s(value, sizeof(char) * length, text);
+            */
 
-            tree = push(tree, key, value);
+            tree = push(tree, key, text);
             break;
         }
         case 2:
@@ -90,6 +101,7 @@ int main()
         }
         default:
         {
+            deleteTree(tree);
             printf("Invalid command");
             return 1;
         }

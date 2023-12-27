@@ -1,9 +1,16 @@
 #include <stdio.h>
 
 #include "matrixSort.h"
+#include "test.h"
 
 int main()
 {
+    if (!testing())
+    {
+        printf("Testing failed\n");
+        return 1;
+    }
+
     int matrix[][MAX_SIZE] = {
         { 5, 3, 2, 4, 1 },
         { 3, 2, 4, 1, 5 },

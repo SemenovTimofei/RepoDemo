@@ -73,17 +73,17 @@ void quickSort(int array[], size_t start, size_t end)
     }
 }
 
-int* createRandomArray(size_t size)
+int* createRandomArray(size_t size, int* newSeed)
 {
     int* array = (int*)calloc(size, sizeof(int));
     if (array == NULL)
     {
         return NULL;
     }
-    srand(time(NULL));
+    srand(time(NULL) + newSeed);
     for (size_t i = 0; i < size; ++i)
     {
-        array[i] = rand();
+        array[i] = rand() % 100;
     }
     return array;
 }
@@ -136,7 +136,7 @@ bool binarySearch(int array[], int start, int end, int key)
 
 bool testing()
 {
-    int* array = createRandomArray(50);
+    int* array = createRandomArray(50, 0);
     quickSort(array, 0, 49);
     if (!isSorted(array, 50))
     {
@@ -182,17 +182,19 @@ int main()
     }
 
     printf("Enter number of elements: ");
-    size_t k = 0;
-    scanf_s("%zd", &k);
+    int k = 0;
+    scanf_s("%d", &k);
     if (k <= 0)
     {
         printf("Invalid number of elements\n");
         return 1;
     }
 
-    int* array = createRandomArray(n);
+    int newSeed = 1;
+    int* array = createRandomArray(n, newSeed);
+    ++newSeed;
     quickSort(array, 0, n - 1);
-    int* searchElements = createRandomArray(k); // i can't create an array that differs from the previous one
+    int* searchElements = createRandomArray(k, newSeed); // i can't create an array that differs from the previous one
 
     for (size_t i = 0; i < k; ++i)
     {

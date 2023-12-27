@@ -66,7 +66,7 @@ ListErrorCode mergeSort(Node** list, const int sortBy)
     Node* right = NULL;
 
     // check whether the list is empty
-    const ListErrorCode empty = noErrors;
+    ListErrorCode empty = noErrors;
     Node* nextNode = getNextNode(*list, &empty);
     if (empty || nextNode == NULL)
     {

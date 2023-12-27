@@ -14,13 +14,14 @@ typedef struct Node
     char* phone;
     Node* next;
 } Node;
+// add head and tail
+// add tail to push
 
 ListErrorCode push(Node** list, const char* name, const char* phone)
 {
     Node* temporary = (Node*)calloc(1, sizeof(Node));
     if (temporary == NULL)
     {
-        free(temporary);
         return listOutOfMemory;
     }
 
@@ -28,7 +29,6 @@ ListErrorCode push(Node** list, const char* name, const char* phone)
     temporary->name = calloc(nameLength, sizeof(char));
     if (temporary->name == NULL)
     {
-        free(temporary->name);
         free(temporary);
         return listOutOfMemory;
     }
@@ -38,7 +38,6 @@ ListErrorCode push(Node** list, const char* name, const char* phone)
     temporary->phone = calloc(phoneNumberLength, sizeof(char));
     if (temporary->phone == NULL)
     {
-        free(temporary->phone);
         free(temporary->name);
         free(temporary);
         return listOutOfMemory;
@@ -90,7 +89,7 @@ ListErrorCode loadData(Node** list, const char* fileName)
     fopen_s(&file, fileName, "r");
     if (file == NULL)
     {
-        freeList(*list);
+        freeList(list);
         return errorOpenningFile;
     }
 
@@ -132,6 +131,7 @@ void printList(Node* list)
 ListErrorCode changeNextNode(Node** node, Node* changeValue)
 {
     (*node)->next = changeValue;
+    return noErrors;
 }
 
 char* currentValue(Node* node, int valueType)

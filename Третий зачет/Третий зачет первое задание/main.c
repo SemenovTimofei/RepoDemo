@@ -11,6 +11,7 @@ int main()
         return 1;
     }
 
+    // columns are horizontal and rows are vertical...
     int matrix[][MAX_SIZE] = {
         { 5, 3, 2, 4, 1 },
         { 3, 2, 4, 1, 5 },

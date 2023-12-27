@@ -29,6 +29,6 @@ int main()
         return 1;
     }
 
-    printf("The surviving soldier is number %d\n", findSurvivor(number, step));
+    printf("The surviving soldier is number %zd\n", findSurvivor(number, step));
     return 0;
 }

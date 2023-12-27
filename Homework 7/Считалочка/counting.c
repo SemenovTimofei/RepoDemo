@@ -13,7 +13,7 @@ size_t findSurvivor(size_t number, size_t step)
     size_t survivor = 0;
     moveHead(&head);
 
-    while (position != NULL)
+    while (position != 0)
     {
         for (size_t i = 1; i < step; ++i)
         {

@@ -2,6 +2,7 @@
 #include <locale.h>
 
 #include "stack.h"
+#include "test.h"
 
 int main()
 {

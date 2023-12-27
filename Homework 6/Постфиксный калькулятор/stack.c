@@ -1,17 +1,14 @@
-#include <stdlib.h>
-#include <stdbool.h>
-
 #include "stack.h"
 
-struct Stack
+typedef struct Stack
 {
     int value;
-    struct Stack* next;
-};
+    Stack* next;
+} Stack;
 
-int push(struct Stack** head, const int value)
+int push(Stack** head, const int value)
 {
-    struct Stack* next = malloc(sizeof(struct Stack));
+    Stack* next = malloc(sizeof(Stack));
     if (next == NULL)
     {
         return 1;
@@ -23,14 +20,14 @@ int push(struct Stack** head, const int value)
     return 0;
 }
 
-int pop(struct Stack** head)
+int pop(Stack** head)
 {
     if (*head == NULL)
     {
-        return 1;
+        return 0;
     }
 
-    struct Stack* trash = *head;
+    Stack* trash = *head;
     *head = (*head)->next;
     int value = trash->value;
 
@@ -66,106 +63,7 @@ int top(Stack* head)
     return head->value;
 }
 
-int calculatePostfix(char* text)
+bool isEnd(Stack* head)
 {
-    Stack* head = NULL;
-    int firstValue = 0;
-    int secondValue = 0;
-    int result = 0;
-
-    int i = 0;
-    while (text[i] != '\0')
-    {
-        char symbol = text[i];
-        ++i;
-
-        if (symbol == ' ' || symbol == '\n')
-        {
-            continue;
-        }
-
-        if (symbol >= '0' && symbol <= '9')
-        {
-            push(&head, symbol - '0');
-        }
-        else
-        {
-            secondValue = pop(&head);
-            firstValue = pop(&head);
-
-            switch (symbol)
-            {
-            case '+':
-            {
-                result = firstValue + secondValue;
-                break;
-            }
-            case '-':
-            {
-                result = firstValue - secondValue;
-                break;
-            }
-            case '*':
-            {
-                result = firstValue * secondValue;
-                break;
-            }
-            case '/':
-            {
-                result = firstValue / secondValue;
-                break;
-            }
-
-            default:
-                break;
-            }
-
-            push(&head, result);
-        }
-    }
-
-    while (head->next != NULL)
-    {
-        secondValue = pop(&head);
-        firstValue = pop(&head);
-        result = firstValue * secondValue;
-        push(&head, result);
-    }
-
-    result = top(head);
-
-    freeStack(&head);
-    return result;
-}
-
-bool testing()
-{
-    bool flag = true;
-    
-    if (!(calculatePostfix("1 2 + 3 + 4 +") == 10))
-    {
-        flag = false;
-    }
-    if (!(calculatePostfix("4 5 * 6 *") == 120))
-    {
-        flag = false;
-    }
-    if (!(calculatePostfix("5") == 5))
-    {
-        flag = false;
-    }
-    if (!(calculatePostfix("9 3 /") == 3))
-    {
-        flag = false;
-    }
-    if (!(calculatePostfix("1 4 -") == -3))
-    {
-        flag = false;
-    }
-    if (!(calculatePostfix("9 3 + 4 * 4 - 4 /") == 11))
-    {
-        flag = false;
-    }
-
-    return flag;
+    return head->next == NULL;
 }

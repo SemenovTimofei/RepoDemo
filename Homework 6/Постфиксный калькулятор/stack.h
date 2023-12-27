@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdlib.h>
 #include <stdbool.h>
 
 // структура стека
@@ -20,5 +21,5 @@ int top(Stack* head);
 // возвращает результат постфиксного вычисления
 int calculatePostfix(char* text);
 
-// возвращает результат прохождения тестов
-bool testing();
+// возвращает является ли узел последним или нет
+bool isEnd(Stack* head);

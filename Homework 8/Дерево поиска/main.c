@@ -51,12 +51,6 @@ int main()
             printf("Enter the expression: ");
             char text[MAX_EXPRESSION_LENGTH] = { 0 };
             scanf_s("%s", &text, MAX_EXPRESSION_LENGTH);
-            /*
-            size_t length = strlen(text) + 1;
-
-            char* value = (char*)calloc(length, sizeof(char));
-            strcpy_s(value, sizeof(char) * length, text);
-            */
 
             tree = push(tree, key, text);
             break;

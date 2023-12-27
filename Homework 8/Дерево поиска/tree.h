@@ -24,6 +24,3 @@ Node* deleteNode(Node* root, int key);
 
 // deletes the whole tree
 void deleteTree(Node* root);
-
-// prints out commands
-void printOptions();

@@ -49,7 +49,7 @@ bool testing()
     }
     if (strcmp(search(root, 1), "one") != 0 || strcmp(search(root, 4), "four") != 0)
     {
-        printf("check");
+        printf("%s %s %s %s", search(root, 1), search(root, 2), search(root, 3), search(root, 4)); // four gets deleted
         return false;
     }
 

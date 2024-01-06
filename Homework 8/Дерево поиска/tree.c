@@ -111,15 +111,15 @@ Node* deleteNode(Node* root, int key)
         if (root->left == NULL)
         {
             Node* temporary = root->right;
+            free(root->value);
             free(root);
-            root->value = NULL;
             return temporary;
         }
         else if (root->right == NULL)
         {
             Node* temporary = root->left;
+            free(root->value);
             free(root);
-            root->value = NULL;
             return temporary;
         }
 
@@ -137,6 +137,7 @@ void deleteTree(Node* root)
     {
         deleteTree(root->left);
         deleteTree(root->right);
+        free(root->value);
         free(root);
     }
 }
